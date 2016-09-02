@@ -1,0 +1,102 @@
+allprojects {
+    repositories {
+        jcenter()
+    }
+}
+
+ext {
+    //Android
+    androidCompileSdkVersion = 23
+    androidBuildToolsVersion = "23.0.2"
+    androidMinSdkVersion = 14
+    androidTargetSdkVersion = 23
+
+    //T21 - WL
+    t21CommonsVersion = '1.1.1'
+    t21CrypterVersion = '1.0.3'
+
+    //Arch
+    daggerVersion = '2.0.2'
+    rxJavaVersion = '1.0.16'
+    rxAndroidVersion = '1.1.0'
+    javaxAnnotationVersion = '1.0'
+    javaxAnnotationVersion = '1.0'
+
+    //Libraries
+    supportVersion = '23.1.1'
+    butterKnifeVersion = '7.0.1'
+    dexterVersion = '2.1.2'
+    guavaVersion = '19.0'
+    gsonVersion = '2.6.2'
+
+    //Frameworks
+    retrofitVersion = '2.0.0-beta2'
+    realmVersion = '0.87.5'
+    lombokVersion = '1.16.6'
+    okthttpVersion = '2.6.0'
+
+    //Testing
+    robolectricVersion = '3.0'
+    jUnitVersion = '4.+'
+    mockitoVersion = '1.+'
+
+    applicationDependencies = [
+            appCompat_v7    : "com.android.support:appcompat-v7:${supportVersion}",
+            support_v4      : "com.android.support:support-v4:${supportVersion}",
+            design          : "com.android.support:design:${supportVersion}",
+            butterKnife     : "com.jakewharton:butterknife:${butterKnifeVersion}",
+            dagger          : "com.google.dagger:dagger:${daggerVersion}",
+            daggerCompiler  : "com.google.dagger:dagger-compiler:${daggerVersion}",
+            rxJava          : "io.reactivex:rxjava:${rxJavaVersion}",
+            rxAndroid       : "io.reactivex:rxandroid:${rxAndroidVersion}",
+            javaxAnnotations: "javax.annotation:jsr250-api:${javaxAnnotationVersion}",
+            dexter          : "com.karumi:dexter:${dexterVersion}",
+            t21Commons      : "com.tempos21.android.commons:t21-android-commons-utils:${t21CommonsVersion}"
+    ]
+
+    applicationTestingDependencies = [
+            jUnit       : "junit:junit:${jUnitVersion}",
+            mockito     : "org.mockito:mockito-core:${mockitoVersion}",
+            roboelectric: "org.robolectric:robolectric:${robolectricVersion}"
+    ]
+
+    dataDependencies = [
+            dagger              : "com.google.dagger:dagger:${daggerVersion}",
+            daggerCompiler      : "com.google.dagger:dagger-compiler:${daggerVersion}",
+            rxJava              : "io.reactivex:rxjava:${rxJavaVersion}",
+            rxAndroid           : "io.reactivex:rxandroid:${rxAndroidVersion}",
+            retrofit            : "com.squareup.retrofit:retrofit:${retrofitVersion}",
+            retrofitGson        : "com.squareup.retrofit:converter-gson:${retrofitVersion}",
+            retrofitRxAdapter   : "com.squareup.retrofit:adapter-rxjava:${retrofitVersion}",
+            javaxAnnotations    : "javax.annotation:jsr250-api:${javaxAnnotationVersion}",
+            realm               : "io.realm:realm-android:${realmVersion}",
+            lombok              : "org.projectlombok:lombok:${lombokVersion}",
+            okthttp             : "com.squareup.okhttp:okhttp:${okthttpVersion}",
+            logging_interceptor : "com.squareup.okhttp:logging-interceptor:${okthttpVersion}",
+            guava               : "com.google.guava:guava:${guavaVersion}",
+            t21_crypter         : "com.tempos21.t21crypt:t21_crypter_android:${t21CrypterVersion}",
+            support_annotations : "com.android.support:support-annotations:${supportVersion}",
+            t21Commons          : "com.tempos21.android.commons:t21-android-commons-utils:${t21CommonsVersion}"
+    ]
+
+    dataTestDependencies = [
+            jUnit       : "junit:junit:${jUnitVersion}",
+            mockito     : "org.mockito:mockito-core:${mockitoVersion}",
+            roboelectric: "org.robolectric:robolectric:${robolectricVersion}"
+    ]
+
+    domainDependencies = [
+            dagger          : "com.google.dagger:dagger:${daggerVersion}",
+            daggerCompiler  : "com.google.dagger:dagger-compiler:${daggerVersion}",
+            rxJava          : "io.reactivex:rxjava:${rxJavaVersion}",
+            javaxAnnotations: "javax.annotation:jsr250-api:${javaxAnnotationVersion}",
+            lombok          : "org.projectlombok:lombok:${lombokVersion}",
+            gson            : "com.google.code.gson:gson:${gsonVersion}"
+    ]
+
+    domainTestDependencies = [
+            jUnit  : "junit:junit:${jUnitVersion}",
+            mockito: "org.mockito:mockito-core:${mockitoVersion}"
+    ]
+
+}
