@@ -62,7 +62,8 @@ allprojects {
                 username = T21_NEXUS_USERNAME
                 password = T21_NEXUS_PASSWORD
             }
-            url T21_NEXUS_URL + T21_NEXUS_REPO_RELEASE // url of our nexus repository
+//            url T21_NEXUS_URL + T21_NEXUS_REPO_RELEASE // url of our nexus repository
+            url T21_NEXUS_MIRROR  // url of our nexus repository
         }
     }
 }
