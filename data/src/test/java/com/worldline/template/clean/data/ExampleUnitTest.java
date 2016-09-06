@@ -1,4 +1,4 @@
-package com.example.a618643.data;
+package com.worldline.template.clean.data;
 
 import org.junit.Test;
 
