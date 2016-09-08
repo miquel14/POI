@@ -1,7 +1,7 @@
 package com.worldline.template.clean.exception;
 
 
-import com.worldline.template.clean.data.exception.NetworkConnectionException;
+import com.worldline.data.exception.NetworkConnectionException;
 
 import android.content.Context;
 

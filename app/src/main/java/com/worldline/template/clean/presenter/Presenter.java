@@ -1,6 +1,6 @@
 package com.worldline.template.clean.presenter;
 
-import com.worldline.template.clean.data.util.preferences.PreferencesUtil;
+import com.worldline.data.util.preferences.PreferencesUtil;
 import com.worldline.template.clean.navigation.Navigator;
 import com.worldline.template.clean.view.IView;
 
