@@ -2,7 +2,7 @@ package com.worldline.template.clean.internal.di.component;
 
 import com.worldline.template.clean.internal.di.PerActivity;
 import com.worldline.template.clean.internal.di.module.ActivityModule;
-import com.worldline.template.clean.view.activity.BaseActivity;
+import com.worldline.template.clean.view.activity.RootActivity;
 import com.worldline.template.clean.data.internal.di.component.ApplicationComponent;
 
 import android.app.Activity;
@@ -18,7 +18,7 @@ import dagger.Component;
 @PerActivity
 @Component(dependencies = ApplicationComponent.class, modules = ActivityModule.class)
 public interface ActivityComponent {
-    void inject(BaseActivity baseActivity);
+    void inject(RootActivity rootActivity);
 
     //Exposed to sub-graphs.
     Activity activity();
