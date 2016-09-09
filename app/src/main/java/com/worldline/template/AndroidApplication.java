@@ -4,7 +4,7 @@ import com.karumi.dexter.Dexter;
 
 import android.app.Application;
 
-public class AndridApplication extends Application {
+public class AndroidApplication extends Application {
 
     @Override
     public void onCreate() {

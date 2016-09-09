@@ -3,7 +3,6 @@ package com.worldline.template.internal.di.component;
 import com.worldline.template.internal.di.PerActivity;
 import com.worldline.template.internal.di.module.ActivityModule;
 import com.worldline.template.view.activity.RootActivity;
-import com.worldline.template.clean.data.internal.di.component.ApplicationComponent;
 
 import android.app.Activity;
 

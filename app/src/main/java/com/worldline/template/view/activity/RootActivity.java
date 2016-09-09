@@ -1,8 +1,7 @@
 package com.worldline.template.view.activity;
 
-import com.worldline.template.clean.BuildConfig;
-import com.worldline.template.clean.data.AndroidApplication;
-import com.worldline.template.clean.data.internal.di.component.ApplicationComponent;
+import com.worldline.template.AndroidApplication;
+import com.worldline.template.BuildConfig;
 import com.worldline.template.internal.di.component.ActivityComponent;
 import com.worldline.template.internal.di.module.ActivityModule;
 import com.worldline.template.presenter.Presenter;
