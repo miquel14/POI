@@ -14,8 +14,8 @@ import dagger.Component;
  * <p>
  * Subtypes of ActivityComponent should be decorated with annotation: {@link PerActivity}
  */
-@PerActivity
-@Component(dependencies = ApplicationComponent.class, modules = ActivityModule.class)
+//@PerActivity
+//@Component(dependencies = ApplicationComponent.class, modules = ActivityModule.class)
 public interface ActivityComponent {
     void inject(RootActivity rootActivity);
 

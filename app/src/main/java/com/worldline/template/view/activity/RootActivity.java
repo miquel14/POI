@@ -87,9 +87,9 @@ public abstract class RootActivity extends AppCompatActivity {
      *
      * @return {@link ApplicationComponent}
      */
-    protected ApplicationComponent getApplicationComponent() {
-        return ((AndroidApplication) getApplication()).getApplicationComponent();
-    }
+//    protected ApplicationComponent getApplicationComponent() {
+//        return ((AndroidApplication) getApplication()).getApplicationComponent();
+//    }
 
     /**
      * Method to obtain an Activity module for dependency injection
