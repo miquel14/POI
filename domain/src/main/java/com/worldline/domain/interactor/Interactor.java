@@ -1,5 +1,8 @@
 package com.worldline.domain.interactor;
 
+import com.worldline.domain.executor.PostExecutionThread;
+import com.worldline.domain.executor.ThreadExecutor;
+
 import rx.Observable;
 import rx.Subscriber;
 import rx.Subscription;
@@ -11,20 +14,19 @@ import rx.subscriptions.Subscriptions;
  * This interface represents a execution unit for different use cases (this means any use case in the application should
  * implement
  * this contract).
- * <p/>
+ * <p>
  * By convention each Interactor implementation will return the result using a {@link Subscriber} that will execute its job in a
  * background thread and will post the result in the UI thread.
  */
 public abstract class Interactor {
 
-    private final com.worldline.domain.executor.ThreadExecutor threadExecutor;
+    private final ThreadExecutor threadExecutor;
 
-    private final com.worldline.domain.executor.PostExecutionThread postExecutionThread;
+    private final PostExecutionThread postExecutionThread;
 
     private Subscription subscription = Subscriptions.empty();
 
-    protected Interactor(
-            com.worldline.domain.executor.ThreadExecutor threadExecutor, com.worldline.domain.executor.PostExecutionThread postExecutionThread) {
+    protected Interactor(ThreadExecutor threadExecutor, PostExecutionThread postExecutionThread) {
         this.threadExecutor = threadExecutor;
         this.postExecutionThread = postExecutionThread;
     }
@@ -42,13 +44,13 @@ public abstract class Interactor {
     @SuppressWarnings("unchecked")
     public void execute(Subscriber useCaseSubscriber) {
         this.subscription = this.buildUseCaseObservable()
-                .subscribeOn(Schedulers.from(threadExecutor))   // executes the task in a new
-                        // Scheduler. In this case from a
-                        // ThreadExecutor.
-                .observeOn(postExecutionThread.getScheduler())  // method will provide the result
-                        // on a specific Scheduler: the
-                        // postExecutionThread in our example.
-                .subscribe(useCaseSubscriber);
+            .subscribeOn(Schedulers.from(threadExecutor))   // executes the task in a new
+            // Scheduler. In this case from a
+            // ThreadExecutor.
+            .observeOn(postExecutionThread.getScheduler())  // method will provide the result
+            // on a specific Scheduler: the
+            // postExecutionThread in our example.
+            .subscribe(useCaseSubscriber);
     }
 
     /**
