@@ -13,7 +13,7 @@ import javax.inject.Singleton;
 @Singleton
 public class PreferencesUtil {
 
-    private static final String STRING_DEF_VALUE = "";
+    private static final String STRING_DEF_VALUE = null;
 
     private static final int INT_DEF_VALUE = 0;
 
@@ -29,7 +29,7 @@ public class PreferencesUtil {
      *
      * @param settingName to remove
      */
-    private void removeSetting(String settingName) {
+    private void removeProperty(String settingName) {
         SharedPreferences.Editor e = sharedPreferences.edit();
         e.remove(settingName);
         e.apply();
@@ -40,19 +40,19 @@ public class PreferencesUtil {
      *
      * @param key String name of the property
      *
-     * @return String value of the property. By default an empty String will be returned.
+     * @return String value of the property. By default a null String will be returned.
      */
     private String getStringProperty(String key) {
-        return sharedPreferences.getString(key, STRING_DEF_VALUE);
+        return getStringProperty(key, STRING_DEF_VALUE);
     }
 
     /**
      * Look for the value of a key in the shared preferences file
      *
-     * @param key          String name of the property
+     * @param key String name of the property
      * @param defaultValue default value
      *
-     * @return String value of the property. By default an empty String will be returned.
+     * @return String value of the property or the default value given.
      */
     private String getStringProperty(String key, String defaultValue) {
         return sharedPreferences.getString(key, defaultValue);
@@ -111,7 +111,7 @@ public class PreferencesUtil {
      * @param key          String name of the property
      * @param defaultValue default value
      *
-     * @return boolean value of the property. By default 0 will be returned.
+     * @return boolean value of the property. By default false will be returned.
      */
     private boolean getBooleanProperty(String key, boolean defaultValue) {
         return sharedPreferences.getBoolean(key, defaultValue);
