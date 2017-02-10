@@ -26,14 +26,18 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import static okhttp3.logging.HttpLoggingInterceptor.Level.HEADERS;
 import static okhttp3.logging.HttpLoggingInterceptor.Level.NONE;
 
-public abstract class CommonCloudDataStore {
+public class CommonCloudDataStore {
 
-    @Inject
-    Context context;
+    private Context context;
 
     private static final String HTTP_CACHE = "http-cache";
 
     private static final String CACHE_CONTROL = "Cache-Control";
+
+    @Inject
+    public CommonCloudDataStore(Context context) {
+        this.context = context;
+    }
 
     /**
      * Build the Retrofit object for the REST services.
