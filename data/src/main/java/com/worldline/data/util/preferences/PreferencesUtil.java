@@ -15,7 +15,7 @@ public class PreferencesUtil {
 
     private static final String STRING_DEF_VALUE = null;
 
-    private static final int INT_DEF_VALUE = 0;
+    private static final int INT_DEF_VALUE = -1;
 
     private SharedPreferences sharedPreferences;
 
@@ -87,7 +87,7 @@ public class PreferencesUtil {
      *
      * @param key String name of the property
      *
-     * @return int value of the property. By default 0 will be returned.
+     * @return int value of the property. By default -1 will be returned.
      */
     private int getIntProperty(String key) {
         return sharedPreferences.getInt(key, INT_DEF_VALUE);
