@@ -30,10 +30,10 @@ ext {
     gsonVersion = '2.6.2'
 
     //Frameworks
-    retrofitVersion = '2.0.0'
+    retrofitVersion = '2.1.0'
     realmVersion = '0.87.5'
     lombokVersion = '1.16.6'
-    okthttpVersion = '3.2.0'
+    okthttpVersion = '3.6.0'
 
     //Testing
     robolectricVersion = '3.0'
