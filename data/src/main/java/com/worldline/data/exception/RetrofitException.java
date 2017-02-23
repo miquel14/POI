@@ -1,13 +1,13 @@
 package com.worldline.data.exception;
 
-import com.squareup.okhttp.ResponseBody;
 
 import java.io.IOException;
 import java.lang.annotation.Annotation;
 
-import retrofit.Converter;
-import retrofit.Response;
-import retrofit.Retrofit;
+import okhttp3.ResponseBody;
+import retrofit2.Converter;
+import retrofit2.Response;
+import retrofit2.Retrofit;
 
 /**
  * This is RetrofitError converted to Retrofit 2
@@ -73,7 +73,7 @@ public class RetrofitException extends RuntimeException {
         if (response == null || response.errorBody() == null) {
             return null;
         }
-        Converter<ResponseBody, T> converter = retrofit.responseConverter(type, new Annotation[0]);
+        Converter<ResponseBody, T> converter = retrofit.responseBodyConverter(type, new Annotation[0]);
         return converter.convert(response.errorBody());
     }
 
