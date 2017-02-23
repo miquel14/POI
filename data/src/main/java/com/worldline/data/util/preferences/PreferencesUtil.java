@@ -27,11 +27,11 @@ public class PreferencesUtil {
     /**
      * Remove property from settings file
      *
-     * @param settingName to remove
+     * @param propertyName to remove
      */
-    private void removeProperty(String settingName) {
+    private void removeProperty(String propertyName) {
         SharedPreferences.Editor e = sharedPreferences.edit();
-        e.remove(settingName);
+        e.remove(propertyName);
         e.apply();
     }
 
