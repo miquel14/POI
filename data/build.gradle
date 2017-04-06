@@ -16,18 +16,7 @@ repositories {
 apply plugin: 'com.android.library'
 apply plugin: 'com.neenbedankt.android-apt'
 apply plugin: 'me.tatarka.retrolambda'
-//apply plugin: 'checkstyle'
-
-//preBuild.dependsOn 'checkstyle'
-
-//task checkstyle(type: Checkstyle) {
-//    configFile file("${project.rootDir}/config/quality/checkstyle/checkstyle.xml")
-//    configProperties.checkstyleSuppressionsPath = file("${project.rootDir}/config/quality/checkstyle/suppressions.xml").absolutePath
-//    source 'src'
-//    include '**/*.java'
-//    exclude '**/gen/**'
-//    classpath = files()
-//}
+apply from: '../quality-android.gradle'
 
 android {
     compileSdkVersion rootProject.ext.androidCompileSdkVersion
@@ -54,8 +43,10 @@ android {
         quiet true
         abortOnError false
         ignoreWarnings true
-        disable 'InvalidPackage'  // Some libraries have issues with this
-        disable 'OldTargetApi'    // Due to Robolectric that modifies the manifest when running tests
+        disable 'InvalidPackage'            //Some libraries have issues with this.
+        disable 'OldTargetApi'              //Lint gives this warning but SDK 20 would be Android L Beta.
+        disable 'IconDensities'             //For testing purpose. This is safe to remove.
+        disable 'IconMissingDensityFolder'  //For testing purpose. This is safe to remove.
     }
 
     testOptions {
@@ -101,3 +92,5 @@ dependencies {
     // Module dependencies
     compile project(':domain')
 }
+
+apply from: '../quality.gradle'
