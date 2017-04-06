@@ -83,11 +83,14 @@ allprojects {
         jcenter()
 
         maven { // another repository. Our nexus
-            credentials {
-                username = T21_NEXUS_USERNAME
-                password = T21_NEXUS_PASSWORD
-            }
-            url T21_NEXUS_URL + T21_NEXUS_REPO_RELEASE // url of our nexus repository
+//            credentials {
+            // Nexus in Kazan doesn't need credentials, but keep these lines commented for other cases
+//                username = KAZAN_NEXUS_USERNAME
+//                password = KAZAN_NEXUS_PASSWORD
+//            }
+            url 'https://kazan.atosworldline.com/nexus/content/repositories/mobile-releases/'   //TODO: Remove this line.
+//            url KAZAN_NEXUS_URL + KAZAN_NEXUS_REPO_RELEASE
+            // url of our nexus repository. This variables should be defined in Gitlab --> Settings --> Variables
         }
     }
 }
