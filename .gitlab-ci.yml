@@ -1,0 +1,112 @@
+
+#image: registry-testing.kazan.atosworldline.com/kazan/awl-kazanmobile-android:latest
+
+stages:
+  - quality
+  - test
+  - distribution
+
+quality :
+    stage: quality                                                   # 1. stage Quality
+    environment: "$Environment"                                      # (Environment - PROD,STG,DEV)
+    tags:
+     - android-docker                                                # Tag for docker image
+    script:
+    - chmod 755 gradlew                                              # admin permission
+    - ./gradlew assemble${Environment}Debug                          # generate the build (Environment - PROD,STG,DEV)
+    - ./gradlew count${Environment}DebugDexMethods                   # generate the Dex Count (Environment - PROD,STG,DEV)
+    - ./gradlew lint${Environment}Debug                              # command to execute the lint
+    - ./gradlew checkstyle                                           # command to execute the checkstyle
+    - ./gradlew findbug                                              # command to execute the findbug
+    - ./gradlew pmd                                                  # command to execute the pmd
+    - ./gradlew sonarqube
+    artifacts:
+      paths:
+      - app/build/outputs/dexcount/*                                 # path dexcount result
+      - data/build/outputs/dexcount/*                                # path dexcount result
+      - app/build/outputs/lint-results-debug.html                    # path lint result
+      - data/build/outputs/lint-results-debug.html                   # path lint result
+      - app/build/reports/checkstyle/checkstyle.html                 # path checkstyle result
+      - domain/build/reports/checkstyle/checkstyle.html              # path checkstyle result
+      - data/build/reports/checkstyle/checkstyle.html                # path checkstyle result
+      - app/build/reports/pmd/pmd.html                               # path pmd result
+      - domain/build/reports/pmd/pmd.html                            # path pmd result
+      - data/build/reports/pmd/pmd.html                              # path pmd result
+      - app/build/reports/findbugs/findbugs.html                     # path findbugs result
+      - data/build/reports/findbugs/findbugs.html                    # path findbugs result
+      name: "$CI_BUILD_NAME $(date +%F)"                             # Download file name eg - 'quality_2017-01-13.zip'
+      expire_in: 1 month                                             # Uploaded artifacts get deleted after 1 month
+
+unit_test:
+    stage: test                                                      # 1. stage Quality
+    tags:
+     - android-docker                                                # Tag for docker image
+    script:
+    - chmod 755 gradlew                                              # admin permission
+    - ./gradlew test
+    artifacts:
+      paths:
+      - app/build/reports/tests/*
+      - app/build/test-results/*
+      - domain/build/reports/tests/*
+      - domain/build/test-results/*
+      - data/build/reports/tests/*
+      - data/build/test-results/*
+      name: "$CI_BUILD_NAME $(date +%F)"                             # Download file name eg - 'test_2017-01-13.zip'
+      expire_in: 1 month                                             # Uploaded artifacts get deleted after 1 month
+
+instrumental_test:
+    stage: test
+    tags:
+     - android-docker
+    script:
+    - chmod 755 gradlew
+    - ./gradlew assembleDebug
+    - ./gradlew assembleDebugAndroidTest
+    - curl -s -O https://kazan.atosworldline.com/share/data/technical-user-kazan-mobile/scripts/android-stf.sh
+    - chmod 755 android-stf.sh
+    - ./android-stf.sh $STF_API_TOKEN $APK_PATH  $TEST_APK_PATH
+    variables:
+      STF_API_TOKEN: "8449381a63f1403a8cb0fab30911771c14a8bebea0c74bef9ac590d3436345f3"
+      APK_PATH: "app/build/outputs/apk/app-debug.apk"
+      TEST_APK_PATH: "app/build/outputs/apk/app-debug-androidTest.apk"
+
+    artifacts:
+      paths:
+      - tests/*
+      name: "$CI_BUILD_NAME $(date +%F)"
+      expire_in: 1 month
+
+appgarden_fabric_dev:
+    stage: distribution                                     # 3. distribution stage
+    environment: debug                                      # environment: DEVELOPMENT
+    when: manual                                            # manual - defined stage triggered.
+    tags:
+    - android-docker                                        # docker image
+    script:
+    - chmod 755 gradlew                                     # admin permission
+    - ./gradlew clean
+    - ./gradlew assembleDebug                               # command to generate the apk
+    - curl -O https://kazan.atosworldline.com/share/data/technical-user-kazan-mobile/scripts/android-appgarden.sh    # android-appgarden.sh file to upload the APK to appGarden
+    - chmod 755 android-appgarden.sh                                       # admin permission
+    - ./android-appgarden.sh  $APK_PATH $UPLOAD_KEY $SECRET_API_KEY $BUILD_NOTE $GRANT_TESTERS $TESTERS_IDS   # variables that are used in android-appgarden.sh
+    - ./gradlew app:crashlyticsUploadDistributionDebug       # Distribution to Fabric in debug
+    variables:
+      APK_PATH: "app/build/outputs/apk/app-debug.apk"                   # apk path
+      UPLOAD_KEY: "5dda1fdc-7ece-49e6-bb8b-142ace25c835-53a4cf9a-90f1-41d3-9d38-35b405b70bbe" # UPLOAD_KEY which we got from appGarden web site
+      SECRET_API_KEY: "a81265700-e300-44d9-9723-6a982c7837d5"                                 # SECRET_API_KEY which we got from appGarden web site
+      BUILD_NOTE: "Development Android"                                                           # description
+      GRANT_TESTERS: "true"
+      TESTERS_IDS: "8fb82856-221c-4457-a3e0-65a0bc813114, 78d05dc8-560c-4616-9174-43c367342881"  # Tester ID's
+
+playstore_prod:                                             # See: https://github.com/Triple-T/gradle-play-publisher
+    stage: distribution                                     # 3. distribution stage
+    environment: release                                    # enviroment production
+    when: manual                                            # manual - run stage manualy
+    tags:
+     - android-docker                                       # docker image
+    script:
+    - chmod 755 gradlew                                     # admin permission
+    - ./gradlew clean
+    - ./gradlew assembleRelease
+    - ./gradlew publishApkRelease                       # Uploads the APK and the summary of recent changes.

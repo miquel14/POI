@@ -1,16 +1,4 @@
 apply plugin: 'java'
-apply plugin: 'checkstyle'
-
-//preBuild.dependsOn 'checkstyle'
-
-task checkstyle(type: Checkstyle) {
-    configFile file("${project.rootDir}/config/quality/checkstyle/checkstyle.xml")
-    configProperties.checkstyleSuppressionsPath = file("${project.rootDir}/config/quality/checkstyle/suppressions.xml").absolutePath
-    source 'src'
-    include '**/*.java'
-    exclude '**/gen/**'
-    classpath = files()
-}
 
 compileJava {
     //noinspection GroovyUnusedAssignment
@@ -49,3 +37,5 @@ dependencies {
     testCompile domainTestDependencies.jUnit
     testCompile domainTestDependencies.mockito
 }
+
+apply from: '../quality.gradle'
