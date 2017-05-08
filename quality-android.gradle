@@ -1,0 +1,32 @@
+/* QUALITY METRICS */
+apply plugin: 'findbugs'
+apply plugin: 'com.getkeepsafe.dexcount'
+
+dexcount {
+    format = "list"
+    includeClasses = false
+    includeFieldCount = true
+    includeTotalMethodCount = false
+    orderByMethodCount = false
+    verbose = false
+    maxTreeDepth = Integer.MAX_VALUE
+    teamCityIntegration = false
+    enableForInstantRun = false
+}
+
+task findbugs(type: FindBugs) {
+    ignoreFailures = true
+    effort = "max"
+    reportLevel = "low"
+    classes = files("$project.buildDir/intermediates/classes")
+    excludeFilter = file("$rootProject.rootDir/config/quality/findbug/findbug-exclude.xml")
+    source = fileTree('src/main/java/')
+    classpath = files()
+    reports {
+        xml.enabled = false
+        xml.withMessages = true
+        xml.destination "$project.buildDir/reports/findbugs/findbugs.xml"
+        html.enabled = true
+        html.destination "$project.buildDir/reports/findbugs/findbugs.html"
+    }
+}
