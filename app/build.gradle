@@ -107,7 +107,6 @@ dependencies {
 
     // Other dependencies
     compile applicationDependencies.dexter
-    compile applicationDependencies.t21Commons
     compile('com.crashlytics.sdk.android:crashlytics:2.5.5@aar') {
         transitive = true;
     }

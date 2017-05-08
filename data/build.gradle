@@ -81,7 +81,7 @@ dependencies {
     compile dataDependencies.support_annotations
 
     // Other dependencies
-    compile dataDependencies.t21Commons
+    compile dataDependencies.t21Log
 
     // Test dependencies
 //    testCompile 'org.assertj:assertj-core:1.7.1'

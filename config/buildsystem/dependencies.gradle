@@ -6,14 +6,14 @@ allprojects {
 
 ext {
     //Android
-    androidCompileSdkVersion = 23
-    androidBuildToolsVersion = "23.0.2"
+    androidCompileSdkVersion = 25
+    androidBuildToolsVersion = "25.0.0"
     androidMinSdkVersion = 14
     androidTargetSdkVersion = 23
 
     //T21 - WL
-    t21CommonsVersion = '1.1.1'
-    t21CrypterVersion = '1.0.3'
+    t21LogVersion = '2.0.0'
+    t21CrypterVersion = '1.0.5'
 
     //Arch
     daggerVersion = '2.0.2'
@@ -51,7 +51,6 @@ ext {
             rxAndroid       : "io.reactivex:rxandroid:${rxAndroidVersion}",
             javaxAnnotations: "javax.annotation:jsr250-api:${javaxAnnotationVersion}",
             dexter          : "com.karumi:dexter:${dexterVersion}",
-            t21Commons      : "com.tempos21.android.commons:t21-android-commons-utils:${t21CommonsVersion}"
     ]
 
     applicationTestingDependencies = [
@@ -76,7 +75,7 @@ ext {
             guava               : "com.google.guava:guava:${guavaVersion}",
             t21_crypter         : "com.tempos21.t21crypt:t21_crypter_android:${t21CrypterVersion}",
             support_annotations : "com.android.support:support-annotations:${supportVersion}",
-            t21Commons          : "com.tempos21.android.commons:t21-android-commons-utils:${t21CommonsVersion}"
+            t21Log          : "com.tempos21.android.commons.utils:t21-log:${t21LogVersion}"
     ]
 
     dataTestDependencies = [
