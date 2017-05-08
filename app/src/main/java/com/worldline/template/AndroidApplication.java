@@ -1,6 +1,5 @@
 package com.worldline.template;
 
-import com.karumi.dexter.Dexter;
 import com.worldline.data.util.RealmVersions;
 import com.worldline.data.util.preferences.PreferencesUtil;
 import com.worldline.template.internal.di.component.ApplicationComponent;
@@ -27,19 +26,15 @@ public class AndroidApplication extends Application {
         this.initializeInjector();
         this.applicationComponent.inject(this);
 
-        //        Fabric.with(this, new CrashLytics());
+        //        Fabric.with(this, new Crashlytics());
 
-        Dexter.initialize(this);
         initRealm();
-
-
     }
 
     private void initRealm() {
-        //Realm  migration
-        RealmConfiguration myConfig = new RealmConfiguration.Builder(this)
+        Realm.init(this);
+        RealmConfiguration myConfig = new RealmConfiguration.Builder()
                 .schemaVersion(RealmVersions.VERSION_0)
-//                .migration(new AppRealmMigration(this))
                 .build();
         Realm.setDefaultConfiguration(myConfig);
     }

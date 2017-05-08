@@ -4,7 +4,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'me.tatarka:gradle-retrolambda:3.2.0'
+        classpath 'me.tatarka:gradle-retrolambda:3.6.1'
     }
 }
 
@@ -16,6 +16,7 @@ repositories {
 apply plugin: 'com.android.library'
 apply plugin: 'com.neenbedankt.android-apt'
 apply plugin: 'me.tatarka.retrolambda'
+apply plugin: 'realm-android'
 apply from: '../quality-android.gradle'
 
 android {
@@ -75,8 +76,6 @@ dependencies {
     apt dataDependencies.lombok
     compile dataDependencies.okthttp
     compile dataDependencies.logging_interceptor
-    compile dataDependencies.realm
-    compile dataDependencies.guava
     compile dataDependencies.t21_crypter
     compile dataDependencies.support_annotations
 

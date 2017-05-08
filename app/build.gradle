@@ -1,9 +1,11 @@
 buildscript {
     repositories {
         jcenter()
+        //maven { url 'https://maven.fabric.io/public' }
     }
     dependencies {
         classpath "com.fernandocejas.frodo:frodo-plugin:0.8.2"
+        //classpath 'io.fabric.tools:gradle:1.+'
     }
 }
 
@@ -95,9 +97,6 @@ dependencies {
     // Arch dependencies
     compile applicationDependencies.dagger
     apt applicationDependencies.daggerCompiler
-    provided applicationDependencies.javaxAnnotations
-    compile applicationDependencies.rxJava
-    compile applicationDependencies.rxAndroid
 
     // UI dependencies
     compile applicationDependencies.appCompat_v7
@@ -107,7 +106,7 @@ dependencies {
 
     // Other dependencies
     compile applicationDependencies.dexter
-    compile('com.crashlytics.sdk.android:crashlytics:2.5.5@aar') {
+    compile('com.crashlytics.sdk.android:crashlytics:2.6.8@aar') {
         transitive = true;
     }
 
