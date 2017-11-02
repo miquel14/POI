@@ -107,4 +107,5 @@ public abstract class RootFragment extends Fragment {
     protected <C> C getComponent(Class<C> componentType) {
         return componentType.cast(((HasComponent<C>) getActivity()).getComponent());
     }
+
 }

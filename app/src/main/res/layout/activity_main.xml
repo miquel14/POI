@@ -7,7 +7,12 @@
     android:fitsSystemWindows="true"
     tools:context="com.worldline.template.view.activity.MainActivity">
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
     <android.support.design.widget.AppBarLayout
+        android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/AppTheme.AppBarOverlay">
@@ -20,5 +25,17 @@
             app:popupTheme="@style/AppTheme.PopupOverlay" />
 
     </android.support.design.widget.AppBarLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/container_fragment"
+        android:layout_below="@+id/appBarLayout">
+
+    </FrameLayout>
+
+    </RelativeLayout>
+
+
 
 </android.support.design.widget.CoordinatorLayout>

@@ -13,4 +13,6 @@ public interface IView {
     void showEmptyCase();
 
     Context getContext();
+
+
 }
