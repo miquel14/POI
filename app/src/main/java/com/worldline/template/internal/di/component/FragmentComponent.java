@@ -15,6 +15,7 @@ import dagger.Component;
 @Component(dependencies = ApplicationComponent.class, modules = FragmentModule.class)
 public interface FragmentComponent {
 
+
     void inject(RootFragment rootFragment);
 
     //Exposed to sub-graphs.

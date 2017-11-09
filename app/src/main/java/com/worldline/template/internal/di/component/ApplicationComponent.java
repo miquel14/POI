@@ -4,6 +4,7 @@ import com.worldline.data.bus.RxBus;
 import com.worldline.data.util.preferences.PreferencesUtil;
 import com.worldline.domain.executor.PostExecutionThread;
 import com.worldline.domain.executor.ThreadExecutor;
+import com.worldline.domain.repository.HomeRepository;
 import com.worldline.template.AndroidApplication;
 import com.worldline.template.internal.di.module.ApplicationModule;
 
@@ -34,4 +35,5 @@ public interface ApplicationComponent {
 
     RxBus rxBus();
 
+    HomeRepository homeRepository();
 }
