@@ -1,31 +1,32 @@
 package com.worldline.data.repository;
 
 
-import com.worldline.data.repository.database.HomeItemsDataStoreFactory;
 import com.worldline.domain.model.HomeItems;
 import com.worldline.domain.repository.HomeRepository;
 import java.util.List;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
 import rx.Observable;
 
-public class DataRepository implements HomeRepository{
+@Singleton
+public class DataRepository implements HomeRepository {
 
-    private final HomeItemsDataStoreFactory dataStoreFactory;
+    private final CloudDataStore cloudDataStore;
 
-    public DataRepository(HomeItemsDataStoreFactory dataStoreFactory) {
-        if (dataStoreFactory == null){
-            throw new NullPointerException();
-        }
-        this.dataStoreFactory = dataStoreFactory;
+    @Inject
+    public DataRepository(CloudDataStore cloudDataStore){
+        this.cloudDataStore = cloudDataStore;
     }
 
     @Override
-    public Observable<HomeItems> get(HomeItems homeitems) {
+    public Observable<HomeItems> get(int id) {
         return null;
     }
 
     @Override
-    public Observable<List<HomeItems>> getList(HomeItems homeItems) {
-        return null;
+    public Observable<List<HomeItems>> getList() {
+        return cloudDataStore.getHomeItems();
     }
 }
