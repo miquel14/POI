@@ -1,8 +1,24 @@
 package com.worldline.template.view.adapter.viewholder;
 
-/**
- * Created by A672272 on 03/11/2017.
- */
+import com.worldline.template.R;
 
-public class MainItemsViewHolder {
+import android.view.View;
+import android.widget.TextView;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
+
+public class MainItemsViewHolder extends BaseClickViewHolder {
+
+    public MainItemsViewHolder(View itemView) {
+        super(itemView);
+        ButterKnife.bind(this, itemView);
+    }
+
+    @BindView(R.id.pointOfInterestTitle)
+    public TextView pointOfInterest;
+
+    @BindView(R.id.numid)
+    public TextView id;
 }

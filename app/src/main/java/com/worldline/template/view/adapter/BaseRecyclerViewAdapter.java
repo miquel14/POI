@@ -1,6 +1,6 @@
 package com.worldline.template.view.adapter;
 
-import com.worldline.domain.model.HomeItems;
+import com.worldline.template.model.HomeItemModel;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -12,8 +12,7 @@ import java.util.List;
  * A generic RecyclerView definition including an onClickListener similar to a ListView's one.
  * BaseClickViewHolder
  */
-public abstract class BaseRecyclerViewAdapter<T extends RecyclerView.ViewHolder>
-        extends RecyclerView.Adapter<T>{
+public abstract class BaseRecyclerViewAdapter<T extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<T> {
 
     protected List<Object> data;
 
@@ -58,7 +57,7 @@ public abstract class BaseRecyclerViewAdapter<T extends RecyclerView.ViewHolder>
         return data.size();
     }
 
-    public void addAll(List<? extends HomeItems> list) {
+    public void addAll(List<? extends HomeItemModel> list) {
         int positionStart = data.size();
         data.addAll(list);
         notifyItemRangeInserted(positionStart, list.size());
@@ -83,11 +82,11 @@ public abstract class BaseRecyclerViewAdapter<T extends RecyclerView.ViewHolder>
         return result;
     }
 
-    public List<HomeItems> getItems() {
-        return (List<HomeItems>) getData();
+    public List<HomeItemModel> getItems() {
+        return (List<HomeItemModel>) getData();
     }
 
-    public void addAtPosition(int position, HomeItems model) {
+    public void addAtPosition(int position, HomeItemModel model) {
         getItems().add(position, model);
         notifyItemInserted(position);
     }
@@ -96,7 +95,6 @@ public abstract class BaseRecyclerViewAdapter<T extends RecyclerView.ViewHolder>
     public int getPosition(Object item) {
         return data.indexOf(item);
     }
-
 
 
     /**
@@ -110,7 +108,8 @@ public abstract class BaseRecyclerViewAdapter<T extends RecyclerView.ViewHolder>
          * Implementers can call getItemAtPosition(position) if they need to access the data associated with the selected item.
          *
          * @param recyclerView    The RecyclerView where the click happened.
-         * @param view            The view within the RecyclerView that was clicked (this will be a view provided by the adapter).
+         * @param view            The view within the RecyclerView that was clicked (this will be a view provided by the
+         *                        adapter).
          * @param adapterPosition The position of the view in the adapter.
          */
         void onRecyclerViewItemClick(RecyclerView recyclerView, View view, int adapterPosition);
