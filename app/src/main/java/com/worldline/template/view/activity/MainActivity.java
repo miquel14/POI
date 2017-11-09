@@ -44,9 +44,9 @@ public class MainActivity extends RootActivity implements HasComponent<MainActiv
         setSupportActionBar(toolbar);
         initializeInjector();
         addFragment(R.id.container_fragment, new MainFragment());
+        setContentView(R.layout.activity_main);
         presenter.setView(this);
         presenter.start();
-        setContentView(R.layout.activity_main);
     }
 
 

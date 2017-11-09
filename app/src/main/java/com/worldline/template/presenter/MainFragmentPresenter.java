@@ -8,6 +8,7 @@ import com.worldline.template.internal.di.PerFragment;
 import com.worldline.template.model.HomeItemModel;
 import com.worldline.template.model.mapper.HomeItemModelMapper;
 import com.worldline.template.view.IView;
+import com.worldline.template.view.activity.MainActivity;
 import com.worldline.template.view.fragment.MainFragment;
 
 import java.util.List;
@@ -48,8 +49,7 @@ public class MainFragmentPresenter extends Presenter<MainFragment> {
     }
 
     public void gotoDetail(int Id){
-
-        //TODO
+        navigator.openDetailActivity(getView().getActivity(),Id);
     }
 
     public void getHomeItemsPrograms() {
