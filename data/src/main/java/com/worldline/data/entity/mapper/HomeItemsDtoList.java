@@ -1,8 +1,11 @@
 package com.worldline.data.entity.mapper;
 
-/**
- * Created by A672272 on 03/11/2017.
- */
+import java.util.List;
 
-public class HomeItemsDtopList {
+import lombok.Data;
+
+
+@Data
+public class HomeItemsDtoList {
+    private List<HomeItemsDto> list;
 }

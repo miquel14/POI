@@ -1,8 +1,24 @@
 package com.worldline.data.entity.mapper;
 
-/**
- * Created by A672272 on 03/11/2017.
- */
 
+import lombok.Data;
+
+@Data
 public class HomeItemsDto {
+
+    private String title;
+
+    private int id;
+
+    private String geocoordinates;
+
+    private String address;
+
+    private String transport;
+
+    private String email;
+
+    private String description;
+
+    private String phone;
 }
