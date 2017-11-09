@@ -11,9 +11,9 @@ import rx.Observable;
  * Interface that specifies the methods that represents our data Repository.
  */
 public interface HomeRepository {
-    Observable<HomeItems> get(HomeItems homeitems);
+    Observable<HomeItems> get(int id);
 
-    Observable<List<HomeItems>> getList(HomeItems homeItems);
+    Observable<List<HomeItems>> getList();
 
 
 }
