@@ -1,10 +1,8 @@
 package com.worldline.template.internal.di.module;
 
-import dagger.Module;
-
 /**
- * A module to wrap the Fragment state and expose it to the graph.
+ * Created by A672272 on 06/11/2017.
  */
-@Module
+
 public class MainFragmentModule {
 }

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:background="?attr/selectableItemBackground"
+    android:layout_height="@dimen/film_item_height"
+    android:layout_margin="@dimen/film_item_margin"
+    android:id="@+id/itemParent">
+
+    <ImageView
+        android:id="@+id/imageViewFilm"
+        android:layout_width="@dimen/film_item_width"
+        android:layout_height="@dimen/film_item_height"
+        android:layout_centerVertical="true"
+        android:layout_margin="@dimen/film_item_image_margin"
+        android:contentDescription="@string/films"
+        android:scaleType="centerInside"
+        android:src="@drawable/worldline" />
+
+    <TextView
+        android:id="@+id/filmTitleText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@+id/imageViewFilm"
+        android:layout_toRightOf="@+id/imageViewFilm"
+        android:textSize="@dimen/big"
+        tools:text="A new Hope" />
+
+    <TextView
+        android:id="@+id/filmEpisodeText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/filmTitleText"
+        android:layout_marginLeft="@dimen/film_item_margin"
+        android:layout_marginStart="@dimen/film_item_margin"
+        android:layout_marginTop="@dimen/film_item_top_margin"
+        android:layout_toEndOf="@+id/imageViewFilm"
+        android:layout_toRightOf="@+id/imageViewFilm"
+        android:textSize="@dimen/regular"
+        tools:text="Episode 4" />
+
+</RelativeLayout>
