@@ -1,8 +1,21 @@
 package com.worldline.template.internal.di.component;
 
-/**
- * Created by A672272 on 09/11/2017.
- */
+import com.worldline.template.internal.di.PerFragment;
+import com.worldline.template.internal.di.module.DetailFragmentModule;
+import com.worldline.template.internal.di.module.FragmentModule;
+import com.worldline.template.view.fragment.DetailFragment;
+import com.worldline.template.view.fragment.RootFragment;
 
-class DetailFragmentComponent {
+import android.app.Fragment;
+
+import dagger.Component;
+
+
+@PerFragment
+@Component(dependencies = ApplicationComponent.class, modules = {FragmentModule.class, DetailFragmentModule.class})
+public interface DetailFragmentComponent extends FragmentComponent {
+
+    void inject(RootFragment rootFragment);
 }
+
+

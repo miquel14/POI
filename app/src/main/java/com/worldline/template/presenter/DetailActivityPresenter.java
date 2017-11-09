@@ -1,8 +1,29 @@
 package com.worldline.template.presenter;
 
-/**
- * Created by A672272 on 09/11/2017.
- */
 
-class DetailActivityPresenter {
+import com.worldline.template.view.activity.DetailActivity;
+
+import javax.inject.Inject;
+
+public class DetailActivityPresenter extends Presenter<DetailActivity> {
+
+    @Inject
+    public DetailActivityPresenter() {
+    }
+
+    @Override
+    protected void initialize() {
+    }
+
+    @Override
+    public void resume() {
+    }
+
+    @Override
+    public void pause() {
+    }
+
+    @Override
+    public void destroy() {
+    }
 }
