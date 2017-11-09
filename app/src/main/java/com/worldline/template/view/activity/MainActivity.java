@@ -2,12 +2,15 @@ package com.worldline.template.view.activity;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
 import com.worldline.template.R;
 import com.worldline.template.internal.di.HasComponent;
+import com.worldline.template.internal.di.component.DaggerMainActivityComponent;
 import com.worldline.template.internal.di.component.MainActivityComponent;
+import com.worldline.template.internal.di.module.MainActivityModule;
 import com.worldline.template.presenter.MainActivityPresenter;
 import com.worldline.template.presenter.Presenter;
 import com.worldline.template.view.IView;
@@ -39,19 +42,22 @@ public class MainActivity extends RootActivity implements HasComponent<MainActiv
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setSupportActionBar(toolbar);
-
         initializeInjector();
-
         addFragment(R.id.container_fragment, new MainFragment());
-
         presenter.setView(this);
         presenter.start();
         setContentView(R.layout.activity_main);
-
     }
 
+
+
     private void initializeInjector() {
-        //TODO
+        this.component = DaggerMainActivityComponent.builder()
+                .applicationComponent(getApplicationComponent())
+                .activityModule(getActivityModule())
+                .mainActivityModule(new MainActivityModule())
+                .build();
+        this.component.inject(this);
     }
 
     @Override

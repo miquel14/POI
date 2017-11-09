@@ -3,6 +3,7 @@ package com.worldline.template.view.activity;
 import com.worldline.template.AndroidApplication;
 import com.worldline.template.BuildConfig;
 import com.worldline.template.internal.di.component.ActivityComponent;
+import com.worldline.template.internal.di.component.ApplicationComponent;
 import com.worldline.template.internal.di.module.ActivityModule;
 import com.worldline.template.presenter.Presenter;
 
@@ -10,6 +11,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
@@ -134,4 +136,16 @@ public abstract class RootActivity extends AppCompatActivity {
             }
         }
     }
+
+    protected ApplicationComponent getApplicationComponent() {
+        return ((AndroidApplication) getApplication()).getApplicationComponent();
+    }
+    protected void restoreActionBar(String title) {
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
+        setTitle(title);
+    }
+
 }
