@@ -4,6 +4,8 @@ package com.worldline.template.presenter;
 import com.worldline.domain.interactor.GetHomeItemsUseCase;
 import com.worldline.domain.model.HomeItems;
 import com.worldline.domain.subscriber.DefaultSubscriber;
+import com.worldline.template.internal.di.PerFragment;
+import com.worldline.template.model.HomeItemModel;
 import com.worldline.template.model.mapper.HomeItemModelMapper;
 import com.worldline.template.view.IView;
 import com.worldline.template.view.fragment.MainFragment;
@@ -12,6 +14,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+@PerFragment
 public class MainFragmentPresenter extends Presenter<MainFragment> {
 
     private final GetHomeItemsUseCase getHomeItemsUseCase;
@@ -19,7 +22,7 @@ public class MainFragmentPresenter extends Presenter<MainFragment> {
     private final HomeItemModelMapper homeItemModelMapper;
 
     @Inject
-    public MainFragmentPresenter(GetHomeItemsUseCase getHomeItemsUseCase, HomeItemModelMapper homeItemsModelMapper) {
+    MainFragmentPresenter(GetHomeItemsUseCase getHomeItemsUseCase, HomeItemModelMapper homeItemsModelMapper) {
         this.getHomeItemsUseCase = getHomeItemsUseCase;
         this.homeItemModelMapper = homeItemsModelMapper;
     }
@@ -44,7 +47,12 @@ public class MainFragmentPresenter extends Presenter<MainFragment> {
 
     }
 
-    private void getHomeItemsPrograms() {
+    public void gotoDetail(int Id){
+
+        //TODO
+    }
+
+    public void getHomeItemsPrograms() {
         getHomeItemsUseCase.execute(new DefaultSubscriber<List<HomeItems>>() {
             @Override
             public void onCompleted() {
@@ -54,13 +62,14 @@ public class MainFragmentPresenter extends Presenter<MainFragment> {
             @Override
             public void onError(Throwable e) {
                 super.onError(e);
+                view.showEmptyCase();
             }
 
             @Override
             public void onNext(List<HomeItems> homeItems) {
                 super.onNext(homeItems);
-                List<HomeItems> homeItemModelList = homeItemModelMapper.dataListToModelList(homeItems);
-                if (homeItems == null || homeItems.isEmpty()) {
+                List<HomeItemModel> homeItemModelList = homeItemModelMapper.dataListToModelList(homeItems);
+                if (homeItemModelList == null || homeItemModelList.isEmpty()) {
                     view.showEmptyCase();
                 } else {
                     view.showItems(homeItemModelList);
@@ -70,7 +79,7 @@ public class MainFragmentPresenter extends Presenter<MainFragment> {
     }
 
     public interface View extends IView {
-        void showItems(List<HomeItems> homeItems);
+        void showItems(List<HomeItemModel> homeItems);
     }
 }
 

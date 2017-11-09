@@ -1,9 +1,12 @@
 package com.worldline.template.view.fragment;
 
+import com.worldline.template.R;
 import com.worldline.template.internal.di.HasComponent;
+import com.worldline.template.internal.di.module.FragmentModule;
 import com.worldline.template.presenter.Presenter;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,9 +30,7 @@ public abstract class RootFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(getLayoutResourceId(), container, false);
-        ButterKnife.bind(this, view);
         unbinder = ButterKnife.bind(this, view);
-
         return view;
     }
 
@@ -38,7 +39,6 @@ public abstract class RootFragment extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
         initializeFragment(savedInstanceState);
     }
 
@@ -106,6 +106,15 @@ public abstract class RootFragment extends Fragment {
     @SuppressWarnings("unchecked")
     protected <C> C getComponent(Class<C> componentType) {
         return componentType.cast(((HasComponent<C>) getActivity()).getComponent());
+    }
+
+    /**
+     * Method to obtain an Fragment module for dependency injection
+     *
+     * @return {@link FragmentModule}
+     */
+    protected FragmentModule getFragmentModule() {
+        return new FragmentModule(this);
     }
 
 }

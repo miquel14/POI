@@ -1,21 +1,26 @@
 package com.worldline.template.view.fragment;
 
 
-import com.worldline.domain.model.HomeItems;
+import com.worldline.template.AndroidApplication;
 import com.worldline.template.R;
 import com.worldline.template.internal.di.HasComponent;
+import com.worldline.template.internal.di.component.DaggerMainFragmentComponent;
 import com.worldline.template.internal.di.component.MainFragmentComponent;
+import com.worldline.template.internal.di.module.MainFragmentModule;
+import com.worldline.template.model.HomeItemModel;
 import com.worldline.template.presenter.MainFragmentPresenter;
 import com.worldline.template.presenter.Presenter;
-import com.worldline.template.view.IView;
 import com.worldline.template.view.adapter.BaseRecyclerViewAdapter;
 import com.worldline.template.view.adapter.viewholder.MainItemsAdapter;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
 import java.util.List;
@@ -24,8 +29,9 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 
-public class MainFragment extends RootFragment implements HasComponent<MainFragmentComponent>, BaseRecyclerViewAdapter.OnItemClickedListener,
-        IView, MainFragmentPresenter.View {
+public class MainFragment extends RootFragment implements HasComponent<MainFragmentComponent>,
+        BaseRecyclerViewAdapter.OnItemClickedListener,
+        MainFragmentPresenter.View, SwipeRefreshLayout.OnRefreshListener {
 
     @BindView(R.id.mainRecyclerView)
     RecyclerView recyclerView;
@@ -35,8 +41,8 @@ public class MainFragment extends RootFragment implements HasComponent<MainFragm
 
     @BindView(R.id.mainEmptyCaseLayout)
     RelativeLayout emptyCaseLayout;
-    @Inject
 
+    @Inject
     MainFragmentPresenter presenter;
 
     private MainFragmentComponent mainFragmentComponent;
@@ -45,29 +51,48 @@ public class MainFragment extends RootFragment implements HasComponent<MainFragm
 
     @Override
     public MainFragmentComponent getComponent() {
-        return null;
+        return mainFragmentComponent;
     }
 
     @Override
     protected int getLayoutResourceId() {
-        return 0;
+        return R.layout.fragment_main;
     }
 
     @Override
     protected void initializeFragment(Bundle savedInstanceState) {
-        //initializeInjector();
+        initializeInjector();
         initList();
         setListener();
         initPresenter();
     }
 
-    private void setListener(){
+    void initializeInjector(){
+        mainFragmentComponent = DaggerMainFragmentComponent.builder()
+                .applicationComponent(((AndroidApplication) getActivity().getApplication()).getApplicationComponent())
+                .fragmentModule(getFragmentModule())
+                .mainFragmentModule(new MainFragmentModule())
+                .build();
+        mainFragmentComponent.inject(this);
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        return super.onCreateView(inflater, container, savedInstanceState);
+    }
+
+    private void setListener() {
+        swipeRefreshLayout.setOnRefreshListener(this);
         adapter.setListener(this);
     }
+
     private void initList(){
-        adapter = new MainItemsAdapter(getContext());
+        adapter = new MainItemsAdapter();
         final LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(layoutManager);
+        recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL));
+        recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(adapter);
     }
 
@@ -78,12 +103,12 @@ public class MainFragment extends RootFragment implements HasComponent<MainFragm
 
     @Override
     protected Presenter getPresenter() {
-        return null;
+        return presenter;
     }
 
     @Override
     public void onRecyclerViewItemClick(RecyclerView recyclerView, View view, int adapterPosition) {
-
+        presenter.gotoDetail(((HomeItemModel) adapter.getItemAtPosition(adapterPosition)).getId());
     }
 
     @Override
@@ -98,11 +123,20 @@ public class MainFragment extends RootFragment implements HasComponent<MainFragm
 
     @Override
     public void showEmptyCase() {
-
+        emptyCaseLayout.setVisibility(View.VISIBLE);
+        swipeRefreshLayout.setRefreshing(false);
     }
 
     @Override
-    public void showItems(List<HomeItems> homeItems) {
+    public void showItems(List<HomeItemModel> homeItems) {
+        emptyCaseLayout.setVisibility(View.GONE);
+        adapter.clear();
         adapter.addAll(homeItems);
+        swipeRefreshLayout.setRefreshing(false);
+    }
+
+    @Override
+    public void onRefresh() {
+        presenter.getHomeItemsPrograms();
     }
 }
