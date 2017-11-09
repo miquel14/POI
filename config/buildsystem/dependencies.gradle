@@ -40,13 +40,14 @@ ext {
     mockitoVersion = '1.+'
 
     applicationDependencies = [
-            appCompat_v7: "com.android.support:appcompat-v7:${supportVersion}",
-            support_v4  : "com.android.support:support-v4:${supportVersion}",
-            design      : "com.android.support:design:${supportVersion}",
-            butterKnife : "com.jakewharton:butterknife:${butterKnifeVersion}",
-            dexter      : "com.karumi:dexter:${dexterVersion}",
-            dagger             : "com.google.dagger:dagger:${daggerVersion}",
-            daggerCompiler     : "com.google.dagger:dagger-compiler:${daggerVersion}",
+            appCompat_v7        : "com.android.support:appcompat-v7:${supportVersion}",
+            support_v4          : "com.android.support:support-v4:${supportVersion}",
+            design              : "com.android.support:design:${supportVersion}",
+            butterKnife         : "com.jakewharton:butterknife:${butterKnifeVersion}",
+            butterKnifeProcessor: "com.jakewharton:butterknife-compiler:${butterKnifeVersion}",
+            dexter              : "com.karumi:dexter:${dexterVersion}",
+            dagger              : "com.google.dagger:dagger:${daggerVersion}",
+            daggerCompiler      : "com.google.dagger:dagger-compiler:${daggerVersion}",
     ]
 
     applicationTestingDependencies = [

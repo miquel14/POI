@@ -103,6 +103,7 @@ dependencies {
     compile applicationDependencies.support_v4
     compile applicationDependencies.design
     compile applicationDependencies.butterKnife
+    compile applicationDependencies.butterKnifeProcessor
 
     // Other dependencies
     compile applicationDependencies.dexter
