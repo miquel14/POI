@@ -1,8 +1,11 @@
 package com.worldline.template.internal.di.module;
 
+import dagger.Module;
+
 /**
  * Created by A672272 on 09/11/2017.
  */
 
-public interface DetailActivityModule {
+@Module
+public class DetailActivityModule {
 }
