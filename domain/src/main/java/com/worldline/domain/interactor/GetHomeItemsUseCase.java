@@ -2,7 +2,6 @@ package com.worldline.domain.interactor;
 
 import com.worldline.domain.executor.PostExecutionThread;
 import com.worldline.domain.executor.ThreadExecutor;
-import com.worldline.domain.model.HomeItems;
 import com.worldline.domain.repository.HomeRepository;
 
 import rx.Observable;

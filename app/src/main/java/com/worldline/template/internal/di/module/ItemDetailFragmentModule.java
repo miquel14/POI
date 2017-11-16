@@ -7,5 +7,5 @@ import dagger.Module;
  */
 
 @Module
-public class DetailFragmentModule {
+public class ItemDetailFragmentModule {
 }

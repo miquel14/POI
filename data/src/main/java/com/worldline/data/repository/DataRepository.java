@@ -1,7 +1,7 @@
 package com.worldline.data.repository;
 
 
-import com.worldline.domain.model.HomeItems;
+import com.worldline.domain.model.HomeItem;
 import com.worldline.domain.repository.HomeRepository;
 import java.util.List;
 
@@ -21,12 +21,12 @@ public class DataRepository implements HomeRepository {
     }
 
     @Override
-    public Observable<HomeItems> get(int id) {
-        return null;
+    public Observable<HomeItem> get(String id) {
+        return cloudDataStore.getDetailItem(id);
     }
 
     @Override
-    public Observable<List<HomeItems>> getList() {
+    public Observable<List<HomeItem>> getList() {
         return cloudDataStore.getHomeItems();
     }
 }

@@ -4,7 +4,7 @@ package com.worldline.data.repository;
 import com.worldline.data.mapper.dto.ResponseDtoMapper;
 import com.worldline.data.repository.datasource.cloud.ApiService;
 import com.worldline.data.repository.datasource.cloud.CommonCloudDataStore;
-import com.worldline.domain.model.HomeItems;
+import com.worldline.domain.model.HomeItem;
 
 import android.content.Context;
 
@@ -29,7 +29,11 @@ public class CloudDataStore extends CommonCloudDataStore {
         apiService = retrofit.create(ApiService.class);
     }
 
-    public Observable<List<HomeItems>> getHomeItems(){
+    public Observable<List<HomeItem>> getHomeItems(){
         return apiService.getHomeItemsList().map(baseResponseDtoMapper::dataListToModelList);
+    }
+
+    public Observable<HomeItem> getDetailItem(String id) {
+        return apiService.getDetailItem(id).map(baseResponseDtoMapper::dataToModel);
     }
 }

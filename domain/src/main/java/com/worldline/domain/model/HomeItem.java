@@ -3,7 +3,7 @@ package com.worldline.domain.model;
 import lombok.Data;
 
 @Data
-public class HomeItems {
+public class HomeItem {
 
     private int id;
 
@@ -20,6 +20,4 @@ public class HomeItems {
     private String phone;
 
     private String geocoord;
-
-
 }
