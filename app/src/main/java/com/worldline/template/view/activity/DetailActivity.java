@@ -5,23 +5,17 @@ import com.worldline.template.internal.di.HasComponent;
 import com.worldline.template.internal.di.component.DaggerDetailActivityComponent;
 import com.worldline.template.internal.di.component.DetailActivityComponent;
 import com.worldline.template.internal.di.module.DetailActivityModule;
-import com.worldline.template.model.HomeItemModel;
 import com.worldline.template.presenter.DetailActivityPresenter;
 import com.worldline.template.presenter.Presenter;
 import com.worldline.template.view.IView;
-import com.worldline.template.view.adapter.viewholder.MainItemsAdapter;
 import com.worldline.template.view.fragment.DetailFragment;
-import com.worldline.template.view.fragment.MainFragment;
 
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.PersistableBundle;
-import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.inject.Inject;
 
@@ -38,26 +32,33 @@ public class DetailActivity extends RootActivity implements HasComponent<DetailA
     Toolbar toolbar;
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle persistentState) {
-        super.onCreate(savedInstanceState, persistentState);
-        setSupportActionBar(toolbar);
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         addFragment(R.id.container_detail_fragment, new DetailFragment());
-        setContentView(R.layout.activity_main);
-        super.restoreActionBar("Informació");
-        if (savedInstanceState == null) {
-            initializeInjector();
-        }
+        initializeInjector();
+        int id = getIntent().getIntExtra("PARAM_ID",0);
+        String title = getIntent().getStringExtra("PARAM_TITLE");
+
+        restoreActionBar(title);
+
+        Fragment fragment = DetailFragment.newInstance(id);
+        addFragment(R.id.container_detail_fragment,fragment);
+        presenter.setView(this);
+        presenter.start();
     }
 
-    public static Intent getDetailCallingIntent(Context context,int id) {
+
+
+    public static Intent getDetailCallingIntent(Context context, int id, String title) {
         Intent intent = new Intent(context, DetailActivity.class);
         intent.putExtra("PARAM_ID", id);
+        intent.putExtra("PARAM_TITLE",title);
         return intent;
     }
 
     @Override
     public DetailActivityComponent getComponent() {
-        return getComponent();
+        return component;
     }
 
     @Override

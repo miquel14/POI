@@ -1,11 +1,5 @@
 package com.worldline.template.view.activity;
 
-import android.content.Context;
-import android.os.Bundle;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-
 import com.worldline.template.R;
 import com.worldline.template.internal.di.HasComponent;
 import com.worldline.template.internal.di.component.DaggerMainActivityComponent;
@@ -16,14 +10,16 @@ import com.worldline.template.presenter.Presenter;
 import com.worldline.template.view.IView;
 import com.worldline.template.view.fragment.MainFragment;
 
+import android.content.Context;
+import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
+
 import javax.inject.Inject;
 
 import butterknife.BindView;
-import dagger.Binds;
-import dagger.internal.DaggerCollections;
 
 
-public class MainActivity extends RootActivity implements HasComponent<MainActivityComponent>,IView {
+public class MainActivity extends RootActivity implements HasComponent<MainActivityComponent>, IView {
 
     @Inject
     MainActivityPresenter presenter;
@@ -48,7 +44,6 @@ public class MainActivity extends RootActivity implements HasComponent<MainActiv
         presenter.setView(this);
         presenter.start();
     }
-
 
 
     private void initializeInjector() {

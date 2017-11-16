@@ -14,6 +14,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.MenuItem;
 
 import butterknife.ButterKnife;
 
@@ -37,6 +38,16 @@ public abstract class RootActivity extends AppCompatActivity {
 
         if (BuildConfig.DEBUG) {
             getSupportFragmentManager().addOnBackStackChangedListener(new ActivityBackStackChangedListener());
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
+            return true;
+        } else {
+            return super.onOptionsItemSelected(item);
         }
     }
 

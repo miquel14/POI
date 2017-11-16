@@ -1,11 +1,21 @@
 package com.worldline.template.internal.di.module;
 
-import dagger.Module;
+import com.worldline.domain.executor.PostExecutionThread;
+import com.worldline.domain.executor.ThreadExecutor;
+import com.worldline.domain.interactor.GetDetailItemUseCase;
+import com.worldline.domain.repository.HomeRepository;
+import com.worldline.template.internal.di.PerFragment;
 
-/**
- * Created by A672272 on 09/11/2017.
- */
+import dagger.Module;
+import dagger.Provides;
+
 
 @Module
 public class ItemDetailFragmentModule {
+    @Provides
+    @PerFragment
+    GetDetailItemUseCase provideDetailItemUseCase(ThreadExecutor threadExecutor, PostExecutionThread postExecutionThread,
+            HomeRepository homeRepository) {
+        return new GetDetailItemUseCase(threadExecutor, postExecutionThread, homeRepository);
+    }
 }

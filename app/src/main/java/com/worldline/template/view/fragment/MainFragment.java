@@ -14,7 +14,6 @@ import com.worldline.template.view.adapter.BaseRecyclerViewAdapter;
 import com.worldline.template.view.adapter.viewholder.MainItemsAdapter;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -67,7 +66,7 @@ public class MainFragment extends RootFragment implements HasComponent<MainFragm
         initPresenter();
     }
 
-    void initializeInjector(){
+    void initializeInjector() {
         mainFragmentComponent = DaggerMainFragmentComponent.builder()
                 .applicationComponent(((AndroidApplication) getActivity().getApplication()).getApplicationComponent())
                 .fragmentModule(getFragmentModule())
@@ -86,7 +85,7 @@ public class MainFragment extends RootFragment implements HasComponent<MainFragm
         adapter.setListener(this);
     }
 
-    private void initList(){
+    private void initList() {
         adapter = new MainItemsAdapter();
         final LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -96,7 +95,7 @@ public class MainFragment extends RootFragment implements HasComponent<MainFragm
         recyclerView.setAdapter(adapter);
     }
 
-    private void initPresenter(){
+    private void initPresenter() {
         presenter.setView(this);
         presenter.start();
     }
@@ -108,7 +107,8 @@ public class MainFragment extends RootFragment implements HasComponent<MainFragm
 
     @Override
     public void onRecyclerViewItemClick(RecyclerView recyclerView, View view, int adapterPosition) {
-        presenter.gotoDetail(((HomeItemModel) adapter.getItemAtPosition(adapterPosition)).getId());
+        presenter.gotoDetail(((HomeItemModel) adapter.getItemAtPosition(adapterPosition)).getId(),
+                ((HomeItemModel) adapter.getItemAtPosition(adapterPosition)).getTitle());
     }
 
     @Override
@@ -137,6 +137,6 @@ public class MainFragment extends RootFragment implements HasComponent<MainFragm
 
     @Override
     public void onRefresh() {
-        presenter.getHomeItemsPrograms();
+        presenter.getHomeItems();
     }
 }

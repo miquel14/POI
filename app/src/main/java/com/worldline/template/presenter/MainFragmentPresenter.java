@@ -2,13 +2,12 @@ package com.worldline.template.presenter;
 
 
 import com.worldline.domain.interactor.GetHomeItemsUseCase;
-import com.worldline.domain.model.HomeItems;
+import com.worldline.domain.model.HomeItem;
 import com.worldline.domain.subscriber.DefaultSubscriber;
 import com.worldline.template.internal.di.PerFragment;
 import com.worldline.template.model.HomeItemModel;
 import com.worldline.template.model.mapper.HomeItemModelMapper;
 import com.worldline.template.view.IView;
-import com.worldline.template.view.activity.MainActivity;
 import com.worldline.template.view.fragment.MainFragment;
 
 import java.util.List;
@@ -30,7 +29,7 @@ public class MainFragmentPresenter extends Presenter<MainFragment> {
 
     @Override
     protected void initialize() {
-        getHomeItemsPrograms();
+        getHomeItems();
     }
 
     @Override
@@ -48,12 +47,12 @@ public class MainFragmentPresenter extends Presenter<MainFragment> {
 
     }
 
-    public void gotoDetail(int Id){
-        navigator.openDetailActivity(getView().getActivity(),Id);
+    public void gotoDetail(int id, String title){
+        navigator.openDetailActivity(getView().getActivity(), id, title);
     }
 
-    public void getHomeItemsPrograms() {
-        getHomeItemsUseCase.execute(new DefaultSubscriber<List<HomeItems>>() {
+    public void getHomeItems() {
+        getHomeItemsUseCase.execute(new DefaultSubscriber<List<HomeItem>>() {
             @Override
             public void onCompleted() {
                 super.onCompleted();
@@ -66,7 +65,7 @@ public class MainFragmentPresenter extends Presenter<MainFragment> {
             }
 
             @Override
-            public void onNext(List<HomeItems> homeItems) {
+            public void onNext(List<HomeItem> homeItems) {
                 super.onNext(homeItems);
                 List<HomeItemModel> homeItemModelList = homeItemModelMapper.dataListToModelList(homeItems);
                 if (homeItemModelList == null || homeItemModelList.isEmpty()) {
