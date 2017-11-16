@@ -21,4 +21,7 @@ public class MainItemsViewHolder extends BaseClickViewHolder {
 
     @BindView(R.id.numid)
     public TextView id;
+
+    @BindView(R.id.distance)
+    public TextView distance;
 }

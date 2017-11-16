@@ -17,13 +17,24 @@
         android:layout_marginLeft="10dp"/>
 
     <TextView
-        tools:text="Casa Batlló"
+        tools:text="Fundació Antoni Tàpies"
         android:textSize="18sp"
         android:layout_centerVertical="true"
         android:id="@+id/pointOfInterestTitle"
-        android:layout_width="wrap_content"
+        android:layout_width="210sp"
         android:layout_height="wrap_content"
         android:layout_toEndOf="@id/numid"
         android:layout_toRightOf="@id/numid" />
+
+    <TextView
+        tools:text="10km"
+        android:textSize="15sp"
+        android:layout_centerVertical="true"
+        android:id="@+id/distance"
+        android:layout_marginLeft="25dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@id/pointOfInterestTitle"
+        android:layout_toRightOf="@id/pointOfInterestTitle" />
 
 </RelativeLayout>
