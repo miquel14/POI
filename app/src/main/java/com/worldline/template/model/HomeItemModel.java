@@ -18,6 +18,8 @@ public class HomeItemModel {
 
     private String geoCoordinates;
 
+    private String distanceInKm;
+
     public int getId() {
         return id;
     }
@@ -80,5 +82,13 @@ public class HomeItemModel {
 
     public void setGeoCoordinates(String geoCoordinates) {
         this.geoCoordinates = geoCoordinates;
+    }
+
+    public String getDistanceInKm() {
+        return distanceInKm;
+    }
+
+    public void setDistanceInKm(String distanceInKm) {
+        this.distanceInKm = distanceInKm;
     }
 }

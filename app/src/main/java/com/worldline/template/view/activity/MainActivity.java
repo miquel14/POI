@@ -37,7 +37,8 @@ public class MainActivity extends RootActivity implements HasComponent<MainActiv
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setSupportActionBar(toolbar);
+        //restoreActionBar(getString(R.string.app_name));
+        toolbar.setTitle(getString(R.string.app_name));
         initializeInjector();
         addFragment(R.id.container_fragment, new MainFragment());
         setContentView(R.layout.activity_main);

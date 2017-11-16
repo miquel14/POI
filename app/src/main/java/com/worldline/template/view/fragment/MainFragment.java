@@ -22,6 +22,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -131,6 +133,8 @@ public class MainFragment extends RootFragment implements HasComponent<MainFragm
     public void showItems(List<HomeItemModel> homeItems) {
         emptyCaseLayout.setVisibility(View.GONE);
         adapter.clear();
+        Collections.sort(homeItems,presenter.comp);
+        adapter.notifyDataSetChanged();
         adapter.addAll(homeItems);
         swipeRefreshLayout.setRefreshing(false);
     }
