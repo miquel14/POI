@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.worldline.template">
 
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
     <application
         android:name=".AndroidApplication"
         android:allowBackup="true"
@@ -16,6 +19,7 @@
         <!-- android:value="TODO_PUT_YOUR_API_KEY"/> -->
         <activity
             android:name=".view.activity.MainActivity"
+            android:launchMode="singleTop"
             android:label="@string/title_activity_main"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -24,7 +28,8 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".view.activity.DetailActivity" />
+            android:name=".view.activity.DetailActivity"
+            android:launchMode="singleTop"/>
     </application>
 
 </manifest>
