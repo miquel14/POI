@@ -7,14 +7,7 @@
     android:clickable="true"
     android:id="@+id/itemParent">
 
-    <TextView
-        android:id="@+id/numid"
-        android:layout_width="30dp"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:textSize="18sp"
-        tools:text="1"
-        android:layout_marginLeft="10dp"/>
+
 
     <TextView
         tools:text="Fundació Antoni Tàpies"
@@ -23,8 +16,7 @@
         android:id="@+id/pointOfInterestTitle"
         android:layout_width="210sp"
         android:layout_height="wrap_content"
-        android:layout_toEndOf="@id/numid"
-        android:layout_toRightOf="@id/numid" />
+        android:layout_marginLeft="25dp" />
 
     <TextView
         tools:text="10km"
