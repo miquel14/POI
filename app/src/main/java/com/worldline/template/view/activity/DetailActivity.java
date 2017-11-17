@@ -36,18 +36,20 @@ public class DetailActivity extends RootActivity implements HasComponent<DetailA
         super.onCreate(savedInstanceState);
         addFragment(R.id.container_detail_fragment, new DetailFragment());
         initializeInjector();
-        int id = getIntent().getIntExtra("PARAM_ID",0);
-        String title = getIntent().getStringExtra("PARAM_TITLE");
-
+        int id = getIntent().getIntExtra(getString(R.string.tag_id),0);
+        String title = getIntent().getStringExtra(getString(R.string.tag_title));
         restoreActionBar(title);
-
         Fragment fragment = DetailFragment.newInstance(id);
         addFragment(R.id.container_detail_fragment,fragment);
         presenter.setView(this);
         presenter.start();
     }
 
-
+    @Override
+    protected void restoreActionBar(String title) {
+        setSupportActionBar(toolbar);
+        super.restoreActionBar(title);
+    }
 
     public static Intent getDetailCallingIntent(Context context, int id, String title) {
         Intent intent = new Intent(context, DetailActivity.class);

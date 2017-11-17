@@ -1,5 +1,10 @@
 package com.worldline.template.view.activity;
 
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnSuccessListener;
+
+import com.worldline.data.GeoConstant;
 import com.worldline.template.R;
 import com.worldline.template.internal.di.HasComponent;
 import com.worldline.template.internal.di.component.DaggerMainActivityComponent;
@@ -10,9 +15,14 @@ import com.worldline.template.presenter.Presenter;
 import com.worldline.template.view.IView;
 import com.worldline.template.view.fragment.MainFragment;
 
+import android.Manifest;
 import android.content.Context;
+import android.content.pm.PackageManager;
+import android.location.Location;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 
 import javax.inject.Inject;
 
@@ -37,15 +47,19 @@ public class MainActivity extends RootActivity implements HasComponent<MainActiv
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //restoreActionBar(getString(R.string.app_name));
-        toolbar.setTitle(getString(R.string.app_name));
+        setSupportActionBar(toolbar);
+        restoreActionBar(getString(R.string.app_name));
         initializeInjector();
         addFragment(R.id.container_fragment, new MainFragment());
-        setContentView(R.layout.activity_main);
         presenter.setView(this);
         presenter.start();
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
 
     private void initializeInjector() {
         this.component = DaggerMainActivityComponent.builder()

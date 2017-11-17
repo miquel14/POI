@@ -151,6 +151,7 @@ public abstract class RootActivity extends AppCompatActivity {
     protected ApplicationComponent getApplicationComponent() {
         return ((AndroidApplication) getApplication()).getApplicationComponent();
     }
+
     protected void restoreActionBar(String title) {
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -158,5 +159,4 @@ public abstract class RootActivity extends AppCompatActivity {
         }
         setTitle(title);
     }
-
 }
