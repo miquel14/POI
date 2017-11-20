@@ -14,16 +14,21 @@ import com.worldline.template.view.adapter.BaseRecyclerViewAdapter;
 import com.worldline.template.view.adapter.viewholder.MainItemsAdapter;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -42,6 +47,8 @@ public class MainFragment extends RootFragment implements HasComponent<MainFragm
 
     @BindView(R.id.mainEmptyCaseLayout)
     RelativeLayout emptyCaseLayout;
+
+    SearchView searchView;
 
     @Inject
     MainFragmentPresenter presenter;
@@ -78,9 +85,35 @@ public class MainFragment extends RootFragment implements HasComponent<MainFragm
     }
 
     @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        setHasOptionsMenu(true);
+        super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        MenuItem menuItem = menu.findItem(R.id.action_search);
+        searchView = (SearchView) menuItem.getActionView();
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                Toast.makeText(getContext(), query, Toast.LENGTH_LONG).show();
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                presenter.searchItems(newText);
+                return true;
+            }
+        });
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return super.onCreateView(inflater, container, savedInstanceState);
     }
+
 
     private void setListener() {
         swipeRefreshLayout.setOnRefreshListener(this);
@@ -133,10 +166,14 @@ public class MainFragment extends RootFragment implements HasComponent<MainFragm
     public void showItems(List<HomeItemModel> homeItems) {
         emptyCaseLayout.setVisibility(View.GONE);
         adapter.clear();
-        Collections.sort(homeItems,presenter.comp);
+        Collections.sort(homeItems, presenter.comp);
         adapter.notifyDataSetChanged();
         adapter.addAll(homeItems);
         swipeRefreshLayout.setRefreshing(false);
+    }
+
+    public void refreshAdapter() {
+        adapter.notifyDataSetChanged();
     }
 
     @Override

@@ -1,5 +1,7 @@
 package com.worldline.template.presenter;
 
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.tasks.OnSuccessListener;
 
 import com.worldline.data.GeoConstant;
 import com.worldline.domain.interactor.GetHomeItemsUseCase;
@@ -11,8 +13,13 @@ import com.worldline.template.model.mapper.HomeItemModelMapper;
 import com.worldline.template.view.IView;
 import com.worldline.template.view.fragment.MainFragment;
 
+import android.Manifest;
+import android.app.Activity;
+import android.content.pm.PackageManager;
 import android.location.Location;
+import android.support.v4.app.ActivityCompat;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
@@ -25,10 +32,17 @@ public class MainFragmentPresenter extends Presenter<MainFragment> {
 
     private final HomeItemModelMapper homeItemModelMapper;
 
+    private List<HomeItemModel> homeItemModelList;
+
+    private FusedLocationProviderClient fusedLocationProviderClient;
+
+    private Location lastKnownLocation;
+
     @Inject
     MainFragmentPresenter(GetHomeItemsUseCase getHomeItemsUseCase, HomeItemModelMapper homeItemsModelMapper) {
         this.getHomeItemsUseCase = getHomeItemsUseCase;
         this.homeItemModelMapper = homeItemsModelMapper;
+        // fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(getView().getContext());
     }
 
     @Override
@@ -51,7 +65,7 @@ public class MainFragmentPresenter extends Presenter<MainFragment> {
 
     }
 
-    public void gotoDetail(int id, String title){
+    public void gotoDetail(int id, String title) {
         navigator.openDetailActivity(getView().getActivity(), id, title);
     }
 
@@ -71,10 +85,11 @@ public class MainFragmentPresenter extends Presenter<MainFragment> {
             @Override
             public void onNext(List<HomeItem> homeItems) {
                 super.onNext(homeItems);
-                List<HomeItemModel> homeItemModelList = homeItemModelMapper.dataListToModelList(homeItems);
+                homeItemModelList = homeItemModelMapper.dataListToModelList(homeItems);
                 if (homeItemModelList == null || homeItemModelList.isEmpty()) {
                     view.showEmptyCase();
                 } else {
+                    //getLastLocation();
                     calculateAllDistances(homeItemModelList);
                     view.showItems(homeItemModelList);
                 }
@@ -82,8 +97,8 @@ public class MainFragmentPresenter extends Presenter<MainFragment> {
         });
     }
 
-    private void calculateAllDistances(List<HomeItemModel> homeItemModelList){
-        for (HomeItemModel item : homeItemModelList){
+    private void calculateAllDistances(List<HomeItemModel> homeItemModelList) {
+        for (HomeItemModel item : homeItemModelList) {
             item.setDistanceInKm(distance(item.getGeoCoordinates()));
         }
     }
@@ -98,8 +113,13 @@ public class MainFragmentPresenter extends Presenter<MainFragment> {
         loc1.setLatitude(Double.parseDouble(latitude));
 
         Location loc2 = new Location("");
-        loc2.setLatitude(GeoConstant.latitude);
-        loc2.setLongitude(GeoConstant.longitude);
+        lastKnownLocation = new Location("");
+        if (lastKnownLocation.getLatitude() == 0 || lastKnownLocation.getLongitude() == 0) {
+            loc2.setLatitude(GeoConstant.latitude);
+            loc2.setLongitude(GeoConstant.longitude);
+        } else {
+            loc2.set(lastKnownLocation);
+        }
 
         float distanceMeters = loc2.distanceTo(loc1);
         float distanceKm = distanceMeters / 1000;
@@ -111,7 +131,7 @@ public class MainFragmentPresenter extends Presenter<MainFragment> {
         public int compare(HomeItemModel o1, HomeItemModel o2) {
             if (Double.valueOf(o1.getDistanceInKm()) > Double.valueOf(o2.getDistanceInKm())) {
                 return 1;
-            } else if (Double.valueOf(o1.getDistanceInKm()) < Double.valueOf(o2.getDistanceInKm())){
+            } else if (Double.valueOf(o1.getDistanceInKm()) < Double.valueOf(o2.getDistanceInKm())) {
                 return -1;
             } else {
                 return 0;
@@ -119,6 +139,46 @@ public class MainFragmentPresenter extends Presenter<MainFragment> {
         }
     };
 
+
+    private void getLastLocation() {
+        if (ActivityCompat.checkSelfPermission(view.getContext(), Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(view.getContext(), Manifest.permission.ACCESS_COARSE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+            //  ActivityCompat.requestPermissions(view.getActivity(), new String[] {Manifest.permission.ACCESS_FINE_LOCATION},
+            // .ACCESS_COARSE_LOCATION)
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        fusedLocationProviderClient.getLastLocation()
+                .addOnSuccessListener((Activity) view.getContext(), new OnSuccessListener<Location>() {
+                    @Override
+                    public void onSuccess(Location location) {
+                        if (location != null) {
+                            lastKnownLocation = location;
+                        }
+                    }
+                });
+    }
+
+    public void searchItems(String newText) {
+        filter(homeItemModelList, newText);
+    }
+
+    private void filter(List<HomeItemModel> list, String query) {
+        List<HomeItemModel> filteredList = new ArrayList<HomeItemModel>();
+        for (HomeItemModel model : list) {
+            if (model.getTitle().toLowerCase().contains(query.toLowerCase())) {
+                filteredList.add(model);
+            }
+        }
+        view.showItems(filteredList);
+    }
 
     public interface View extends IView {
         void showItems(List<HomeItemModel> homeItems);

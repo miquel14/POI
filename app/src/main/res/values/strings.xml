@@ -4,4 +4,7 @@
     <string name="title_activity_main">MainActivity</string>
     <string name="no_results_found">Sense resultats</string>
     <string name="distance_in_km">%s kms</string>
+    <string name="action_search">Cerca</string>
+    <string name="tag_title">PARAM_TITLE</string>
+    <string name="tag_id">PARAM_ID</string>
 </resources>
