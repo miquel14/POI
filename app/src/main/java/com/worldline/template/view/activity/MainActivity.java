@@ -36,6 +36,8 @@ public class MainActivity extends RootActivity implements HasComponent<MainActiv
 
     private MainActivityComponent component;
 
+    private FusedLocationProviderClient fusedLocationProviderClient;
+
     @BindView(R.id.toolbar)
     Toolbar toolbar;
 
@@ -47,6 +49,27 @@ public class MainActivity extends RootActivity implements HasComponent<MainActiv
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        /*fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
+
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        fusedLocationProviderClient.getLastLocation().addOnSuccessListener(this, new OnSuccessListener<Location>() {
+            @Override
+            public void onSuccess(Location location) {
+
+            }
+        });*/
         setSupportActionBar(toolbar);
         restoreActionBar(getString(R.string.app_name));
         initializeInjector();

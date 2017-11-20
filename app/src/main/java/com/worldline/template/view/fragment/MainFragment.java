@@ -97,7 +97,6 @@ public class MainFragment extends RootFragment implements HasComponent<MainFragm
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                Toast.makeText(getContext(), query, Toast.LENGTH_LONG).show();
                 return true;
             }
 
@@ -113,7 +112,6 @@ public class MainFragment extends RootFragment implements HasComponent<MainFragm
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return super.onCreateView(inflater, container, savedInstanceState);
     }
-
 
     private void setListener() {
         swipeRefreshLayout.setOnRefreshListener(this);
@@ -170,10 +168,6 @@ public class MainFragment extends RootFragment implements HasComponent<MainFragm
         adapter.notifyDataSetChanged();
         adapter.addAll(homeItems);
         swipeRefreshLayout.setRefreshing(false);
-    }
-
-    public void refreshAdapter() {
-        adapter.notifyDataSetChanged();
     }
 
     @Override
