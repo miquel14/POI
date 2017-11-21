@@ -20,7 +20,7 @@ public class PermissionUtils {
 
     private Context context;
 
-    private Activity current_activity;
+    private Activity currentActivity;
 
     private PermissionResultCallback permissionResultCallback;
 
@@ -28,13 +28,13 @@ public class PermissionUtils {
 
     private ArrayList<String> listPermissionsNeeded = new ArrayList<>();
 
-    private String dialog_content = "";
+    private String dialogContent = "";
 
     private int req_code;
 
     private PermissionUtils(Context context) {
         this.context = context;
-        this.current_activity = (Activity) context;
+        this.currentActivity = (Activity) context;
 
         permissionResultCallback = (PermissionResultCallback) context;
 
@@ -43,7 +43,7 @@ public class PermissionUtils {
 
     public PermissionUtils(Context context, PermissionResultCallback callback) {
         this.context = context;
-        this.current_activity = (Activity) context;
+        this.currentActivity = (Activity) context;
 
         permissionResultCallback = callback;
 
@@ -57,7 +57,7 @@ public class PermissionUtils {
 
     public void check_permission(ArrayList<String> permissions, String dialog_content, int request_code) {
         this.permission_list = permissions;
-        this.dialog_content = dialog_content;
+        this.dialogContent = dialog_content;
         this.req_code = request_code;
 
         if (Build.VERSION.SDK_INT >= 23) {
@@ -86,7 +86,7 @@ public class PermissionUtils {
             listPermissionsNeeded = new ArrayList<>();
 
             for (int i = 0; i < permissions.size(); i++) {
-                int hasPermission = ContextCompat.checkSelfPermission(current_activity, permissions.get(i));
+                int hasPermission = ContextCompat.checkSelfPermission(currentActivity, permissions.get(i));
 
                 if (hasPermission != PackageManager.PERMISSION_GRANTED) {
                     listPermissionsNeeded.add(permissions.get(i));
@@ -95,7 +95,7 @@ public class PermissionUtils {
             }
 
             if (!listPermissionsNeeded.isEmpty()) {
-                ActivityCompat.requestPermissions(current_activity,
+                ActivityCompat.requestPermissions(currentActivity,
                         listPermissionsNeeded.toArray(new String[listPermissionsNeeded.size()]), request_code);
                 return false;
             }
@@ -126,12 +126,12 @@ public class PermissionUtils {
                     for (int i = 0; i < listPermissionsNeeded.size(); i++) {
                         if (perms.get(listPermissionsNeeded.get(i)) != PackageManager.PERMISSION_GRANTED) {
                             if (ActivityCompat
-                                    .shouldShowRequestPermissionRationale(current_activity, listPermissionsNeeded.get(i))) {
+                                    .shouldShowRequestPermissionRationale(currentActivity, listPermissionsNeeded.get(i))) {
                                 pending_permissions.add(listPermissionsNeeded.get(i));
                             } else {
                                 Log.i("Go to settings", "and enable permissions");
                                 permissionResultCallback.NeverAskAgain(req_code);
-                                Toast.makeText(current_activity, "Go to settings and enable permissions", Toast.LENGTH_LONG)
+                                Toast.makeText(currentActivity, "Go to settings and enable permissions", Toast.LENGTH_LONG)
                                         .show();
                                 return;
                             }
@@ -140,14 +140,14 @@ public class PermissionUtils {
                     }
 
                     if (pending_permissions.size() > 0) {
-                        showMessageOKCancel(dialog_content,
+                        showMessageOKCancel(dialogContent,
                                 new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
 
                                         switch (which) {
                                             case DialogInterface.BUTTON_POSITIVE:
-                                                check_permission(permission_list, dialog_content, req_code);
+                                                check_permission(permission_list, dialogContent, req_code);
                                                 break;
                                             case DialogInterface.BUTTON_NEGATIVE:
                                                 Log.i("permisson", "not fully given");
@@ -182,7 +182,7 @@ public class PermissionUtils {
      * Explain why the app needs permissions
      */
     private void showMessageOKCancel(String message, DialogInterface.OnClickListener okListener) {
-        new AlertDialog.Builder(current_activity)
+        new AlertDialog.Builder(currentActivity)
                 .setMessage(message)
                 .setPositiveButton("Ok", okListener)
                 .setNegativeButton("Cancel", okListener)

@@ -164,7 +164,10 @@ public class MainFragment extends RootFragment implements HasComponent<MainFragm
     public void showItems(List<HomeItemModel> homeItems) {
         emptyCaseLayout.setVisibility(View.GONE);
         adapter.clear();
-        Collections.sort(homeItems, presenter.comp);
+        try{
+            Collections.sort(homeItems, presenter.comp);
+        } catch(Exception exception){
+            exception.printStackTrace(); }
         adapter.notifyDataSetChanged();
         adapter.addAll(homeItems);
         swipeRefreshLayout.setRefreshing(false);

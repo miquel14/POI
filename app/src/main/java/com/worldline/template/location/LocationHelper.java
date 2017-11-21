@@ -17,24 +17,19 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
-import android.location.Address;
-import android.location.Geocoder;
 import android.location.Location;
 import android.support.annotation.NonNull;
 import android.util.Log;
 import android.widget.Toast;
 
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
 
 
 public class LocationHelper implements PermissionUtils.PermissionResultCallback {
 
     private Context context;
 
-    private Activity current_activity;
+    private Activity currentActivity;
 
     private boolean isPermissionGranted;
 
@@ -57,20 +52,19 @@ public class LocationHelper implements PermissionUtils.PermissionResultCallback 
     public LocationHelper(Context context) {
 
         this.context = context;
-        this.current_activity = (Activity) context;
+        this.currentActivity = (Activity) context;
 
         permissionUtils = new PermissionUtils(context, this);
 
         permissions.add(Manifest.permission.ACCESS_FINE_LOCATION);
         permissions.add(Manifest.permission.ACCESS_COARSE_LOCATION);
-
     }
 
     /**
      * Method to check the availability of location permissions
      */
 
-    public void checkpermission() {
+    public void checkPermission() {
         permissionUtils.check_permission(permissions, "Need GPS permission for getting your location", 1);
     }
 
@@ -90,7 +84,7 @@ public class LocationHelper implements PermissionUtils.PermissionResultCallback 
 
         if (resultCode != ConnectionResult.SUCCESS) {
             if (googleApiAvailability.isUserResolvableError(resultCode)) {
-                googleApiAvailability.getErrorDialog(current_activity, resultCode,
+                googleApiAvailability.getErrorDialog(currentActivity, resultCode,
                         PLAY_SERVICES_REQUEST).show();
             } else {
                 showToast("This device is not supported.");
@@ -105,43 +99,16 @@ public class LocationHelper implements PermissionUtils.PermissionResultCallback 
      */
 
     public Location getLocation() {
-
         if (isPermissionGranted()) {
-
             try {
-                mLastLocation = LocationServices.FusedLocationApi
-                        .getLastLocation(mGoogleApiClient);
-
+                mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
                 return mLastLocation;
             } catch (SecurityException e) {
                 e.printStackTrace();
-
             }
-
         }
-
         return null;
-
     }
-
-    public Address getAddress(double latitude, double longitude) {
-        Geocoder geocoder;
-        List<Address> addresses;
-        geocoder = new Geocoder(context, Locale.getDefault());
-
-        try {
-            addresses = geocoder.getFromLocation(latitude, longitude,
-                    1); // Here 1 represent max location result to returned, by documents it recommended 1 to 5
-            return addresses.get(0);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return null;
-
-    }
-
 
     /**
      * Method used to build GoogleApiClient
@@ -149,8 +116,8 @@ public class LocationHelper implements PermissionUtils.PermissionResultCallback 
 
     public void buildGoogleApiClient() {
         mGoogleApiClient = new GoogleApiClient.Builder(context)
-                .addConnectionCallbacks((GoogleApiClient.ConnectionCallbacks) current_activity)
-                .addOnConnectionFailedListener((GoogleApiClient.OnConnectionFailedListener) current_activity)
+                .addConnectionCallbacks((GoogleApiClient.ConnectionCallbacks) currentActivity)
+                .addOnConnectionFailedListener((GoogleApiClient.OnConnectionFailedListener) currentActivity)
                 .addApi(LocationServices.API).build();
 
         mGoogleApiClient.connect();
@@ -181,7 +148,7 @@ public class LocationHelper implements PermissionUtils.PermissionResultCallback 
                         try {
                             // Show the dialog by calling startResolutionForResult(),
                             // and check the result in onActivityResult().
-                            status.startResolutionForResult(current_activity, REQUEST_CHECK_SETTINGS);
+                            status.startResolutionForResult(currentActivity, REQUEST_CHECK_SETTINGS);
 
                         } catch (IntentSender.SendIntentException e) {
                             // Ignore the error.
@@ -192,8 +159,6 @@ public class LocationHelper implements PermissionUtils.PermissionResultCallback 
                 }
             }
         });
-
-
     }
 
     /**

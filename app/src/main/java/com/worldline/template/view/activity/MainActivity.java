@@ -1,5 +1,7 @@
 package com.worldline.template.view.activity;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -20,6 +22,8 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -29,7 +33,8 @@ import javax.inject.Inject;
 import butterknife.BindView;
 
 
-public class MainActivity extends RootActivity implements HasComponent<MainActivityComponent>, IView {
+public class MainActivity extends RootActivity implements HasComponent<MainActivityComponent>, IView,
+        GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
     @Inject
     MainActivityPresenter presenter;
@@ -121,5 +126,20 @@ public class MainActivity extends RootActivity implements HasComponent<MainActiv
     @Override
     public Context getContext() {
         return this;
+    }
+
+    @Override
+    public void onConnected(@Nullable Bundle bundle) {
+
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+
     }
 }

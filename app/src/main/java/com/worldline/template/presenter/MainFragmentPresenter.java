@@ -1,5 +1,7 @@
 package com.worldline.template.presenter;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.FusedLocationProviderClient;
 
 import com.worldline.data.GeoConstant;
@@ -14,16 +16,23 @@ import com.worldline.template.view.IView;
 import com.worldline.template.view.fragment.MainFragment;
 
 import android.location.Location;
+import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
+import android.util.Log;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Locale;
 
 import javax.inject.Inject;
 
 @PerFragment
-public class MainFragmentPresenter extends Presenter<MainFragment> {
+public class MainFragmentPresenter extends Presenter<MainFragment> implements GoogleApiClient.ConnectionCallbacks,
+        GoogleApiClient.OnConnectionFailedListener, ActivityCompat.OnRequestPermissionsResultCallback {
 
     private final GetHomeItemsUseCase getHomeItemsUseCase;
 
@@ -34,6 +43,8 @@ public class MainFragmentPresenter extends Presenter<MainFragment> {
     private FusedLocationProviderClient fusedLocationProviderClient;
 
     private Location lastKnownLocation;
+
+    private LocationHelper locationHelper;
 
     @Inject
     MainFragmentPresenter(GetHomeItemsUseCase getHomeItemsUseCase, HomeItemModelMapper homeItemsModelMapper) {
@@ -49,6 +60,21 @@ public class MainFragmentPresenter extends Presenter<MainFragment> {
     @Override
     public void resume() {
 
+    }
+
+    @Override
+    public void start() {
+        lastKnownLocation = new Location("");
+        locationHelper = new LocationHelper(getView().getContext());
+        locationHelper.checkPermission();
+        if (locationHelper.checkPlayServices()) {
+            // Building the GoogleApi client
+            locationHelper.buildGoogleApiClient();
+        }
+        if (locationHelper.getGoogleApiCLient() != null){
+            locationHelper.connectApiClient();
+        }
+        initialize();
     }
 
     @Override
@@ -85,7 +111,7 @@ public class MainFragmentPresenter extends Presenter<MainFragment> {
                 if (homeItemModelList == null || homeItemModelList.isEmpty()) {
                     view.showEmptyCase();
                 } else {
-                    //getLastLocation();
+                    getLastLocation();
                     calculateAllDistances(homeItemModelList);
                     view.showItems(homeItemModelList);
                 }
@@ -109,8 +135,6 @@ public class MainFragmentPresenter extends Presenter<MainFragment> {
         loc1.setLatitude(Double.parseDouble(latitude));
 
         Location loc2 = new Location("");
-        lastKnownLocation = new Location("");
-
         if (lastKnownLocation.getLatitude() == 0 || lastKnownLocation.getLongitude() == 0) {
             loc2.setLatitude(GeoConstant.latitude);
             loc2.setLongitude(GeoConstant.longitude);
@@ -120,7 +144,8 @@ public class MainFragmentPresenter extends Presenter<MainFragment> {
 
         float distanceMeters = loc2.distanceTo(loc1);
         float distanceKm = distanceMeters / 1000;
-        return String.format("%.2f", distanceKm);
+        //return String.format("%.2f", distanceKm);//Sino dona error pq en al
+        return String.format(Locale.ENGLISH,"%.2f",distanceKm);
     }
 
     final public Comparator<HomeItemModel> comp = new Comparator<HomeItemModel>() {
@@ -138,20 +163,12 @@ public class MainFragmentPresenter extends Presenter<MainFragment> {
 
 
     private void getLastLocation() {
-        lastKnownLocation = new Location("");
-        LocationHelper locationHelper = new LocationHelper(getView().getActivity());
-        locationHelper.checkpermission();
-        Location Location = locationHelper.getLocation();
-        if (Location != null) {
-            lastKnownLocation.setLongitude(Location.getLongitude());
-            lastKnownLocation.setAltitude(Location.getLatitude());
+        Location mLocation = locationHelper.getLocation();
+        if (mLocation != null) {
+            lastKnownLocation.setLongitude(mLocation.getLongitude());
+            lastKnownLocation.setLatitude(mLocation.getLatitude());
         } else {
             showToast("No es pot obtenir l'ubicació.");
-        }
-        if (locationHelper.checkPlayServices()) {
-
-            // Building the GoogleApi client
-            locationHelper.buildGoogleApiClient();
         }
     }
 
@@ -171,6 +188,27 @@ public class MainFragmentPresenter extends Presenter<MainFragment> {
 
     private void showToast(String message) {
         Toast.makeText(getView().getActivity(), message, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        locationHelper.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
+    @Override
+    public void onConnected(@Nullable Bundle bundle) {
+        lastKnownLocation = locationHelper.getLocation();
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+        locationHelper.connectApiClient();
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+        Log.i("Connection failed:", " ConnectionResult.getErrorCode() = "
+                + connectionResult.getErrorCode());
     }
 
 
