@@ -7,4 +7,5 @@
     <string name="action_search">Cerca</string>
     <string name="tag_title">PARAM_TITLE</string>
     <string name="tag_id">PARAM_ID</string>
+    <string name="descTitle">Una mica d\'informació:</string>
 </resources>

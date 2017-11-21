@@ -13,6 +13,7 @@
 
         <TextView
             android:id="@+id/title"
+            android:textStyle="bold"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
@@ -47,10 +48,22 @@
             tools:text="email" />
 
         <TextView
-            android:id="@+id/description"
+            android:id="@+id/descTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/email"
+            android:layout_marginBottom="8dp"
+            android:textSize="14sp"
+            android:text="@string/descTitle"
+            android:textStyle="bold"
+            tools:text="@string/descTitle" />
+
+
+        <TextView
+            android:id="@+id/description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/descTitle"
             android:layout_marginBottom="8dp"
             android:textSize="14sp"
             tools:text="description" />
@@ -63,6 +76,7 @@
             android:layout_marginBottom="8dp"
             android:textSize="14sp"
             tools:text="phone" />
+
 
     </RelativeLayout>
 
