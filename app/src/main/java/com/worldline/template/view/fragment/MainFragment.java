@@ -26,7 +26,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import java.util.Collections;
 import java.util.List;
@@ -73,6 +72,14 @@ public class MainFragment extends RootFragment implements HasComponent<MainFragm
         initList();
         setListener();
         initPresenter();
+    }
+
+    @Override
+    public void onResume() {
+        /*if (adapter != null) {
+            presenter.refreshLocationsList();
+        }*/
+        super.onResume();
     }
 
     void initializeInjector() {
@@ -164,10 +171,11 @@ public class MainFragment extends RootFragment implements HasComponent<MainFragm
     public void showItems(List<HomeItemModel> homeItems) {
         emptyCaseLayout.setVisibility(View.GONE);
         adapter.clear();
-        try{
+        try {
             Collections.sort(homeItems, presenter.comp);
-        } catch(Exception exception){
-            exception.printStackTrace(); }
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
         adapter.notifyDataSetChanged();
         adapter.addAll(homeItems);
         swipeRefreshLayout.setRefreshing(false);

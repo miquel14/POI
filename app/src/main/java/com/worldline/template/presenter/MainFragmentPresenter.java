@@ -2,20 +2,22 @@ package com.worldline.template.presenter;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.location.FusedLocationProviderClient;
 
 import com.worldline.data.GeoConstant;
 import com.worldline.domain.interactor.GetHomeItemsUseCase;
 import com.worldline.domain.model.HomeItem;
 import com.worldline.domain.subscriber.DefaultSubscriber;
-import com.worldline.template.location.LocationHelper;
 import com.worldline.template.internal.di.PerFragment;
+import com.worldline.template.location.LocationHelper;
 import com.worldline.template.model.HomeItemModel;
 import com.worldline.template.model.mapper.HomeItemModelMapper;
 import com.worldline.template.view.IView;
 import com.worldline.template.view.fragment.MainFragment;
 
+import android.content.Context;
 import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -40,11 +42,11 @@ public class MainFragmentPresenter extends Presenter<MainFragment> implements Go
 
     private List<HomeItemModel> homeItemModelList;
 
-    private FusedLocationProviderClient fusedLocationProviderClient;
-
     private Location lastKnownLocation;
 
     private LocationHelper locationHelper;
+
+    private LocationManager locationManager;
 
     @Inject
     MainFragmentPresenter(GetHomeItemsUseCase getHomeItemsUseCase, HomeItemModelMapper homeItemsModelMapper) {
@@ -54,6 +56,9 @@ public class MainFragmentPresenter extends Presenter<MainFragment> implements Go
 
     @Override
     protected void initialize() {
+        locationHelper.checkPermission();
+        locationManager = (LocationManager) getView().getContext().getSystemService(Context.LOCATION_SERVICE);
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2000, 10, locationListenerGPS);
         getHomeItems();
     }
 
@@ -64,17 +69,47 @@ public class MainFragmentPresenter extends Presenter<MainFragment> implements Go
 
     @Override
     public void start() {
-        lastKnownLocation = new Location("");
         locationHelper = new LocationHelper(getView().getContext());
-        locationHelper.checkPermission();
+        lastKnownLocation = new Location("");
         if (locationHelper.checkPlayServices()) {
             // Building the GoogleApi client
             locationHelper.buildGoogleApiClient();
         }
-        if (locationHelper.getGoogleApiCLient() != null){
+        if (locationHelper.getGoogleApiCLient() != null) {
             locationHelper.connectApiClient();
         }
         initialize();
+    }
+
+    LocationListener locationListenerGPS = new LocationListener() {
+        @Override
+        public void onLocationChanged(Location location) {
+            refreshLocationsList();
+        }
+
+        @Override
+        public void onStatusChanged(String provider, int status, Bundle extras) {
+
+        }
+
+        @Override
+        public void onProviderEnabled(String provider) {
+
+        }
+
+        @Override
+        public void onProviderDisabled(String provider) {
+
+        }
+    };
+
+    public void refreshLocationsList() {
+        if (homeItemModelList == null){
+            getHomeItems();
+        }
+        getLastLocation();
+        calculateAllDistances(homeItemModelList);
+        view.showItems(homeItemModelList);
     }
 
     @Override
@@ -111,9 +146,7 @@ public class MainFragmentPresenter extends Presenter<MainFragment> implements Go
                 if (homeItemModelList == null || homeItemModelList.isEmpty()) {
                     view.showEmptyCase();
                 } else {
-                    getLastLocation();
-                    calculateAllDistances(homeItemModelList);
-                    view.showItems(homeItemModelList);
+                    refreshLocationsList();
                 }
             }
         });
@@ -144,8 +177,7 @@ public class MainFragmentPresenter extends Presenter<MainFragment> implements Go
 
         float distanceMeters = loc2.distanceTo(loc1);
         float distanceKm = distanceMeters / 1000;
-        //return String.format("%.2f", distanceKm);//Sino dona error pq en al
-        return String.format(Locale.ENGLISH,"%.2f",distanceKm);
+        return String.format(Locale.ENGLISH, "%.2f", distanceKm);
     }
 
     final public Comparator<HomeItemModel> comp = new Comparator<HomeItemModel>() {
