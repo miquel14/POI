@@ -81,7 +81,7 @@ public class MainFragmentPresenter extends Presenter<MainFragment> implements Go
         initialize();
     }
 
-    LocationListener locationListenerGPS = new LocationListener() {
+    private LocationListener locationListenerGPS = new LocationListener() {
         @Override
         public void onLocationChanged(Location location) {
             refreshLocationsList();
@@ -103,13 +103,14 @@ public class MainFragmentPresenter extends Presenter<MainFragment> implements Go
         }
     };
 
-    public void refreshLocationsList() {
-        if (homeItemModelList == null){
+    private void refreshLocationsList() {
+        if (homeItemModelList == null) {
             getHomeItems();
+        } else {
+            getLastLocation();
+            calculateAllDistances(homeItemModelList);
+            view.showItems(homeItemModelList);
         }
-        getLastLocation();
-        calculateAllDistances(homeItemModelList);
-        view.showItems(homeItemModelList);
     }
 
     @Override

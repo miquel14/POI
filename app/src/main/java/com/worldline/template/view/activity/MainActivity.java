@@ -2,7 +2,6 @@ package com.worldline.template.view.activity;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.location.FusedLocationProviderClient;
 
 import com.worldline.template.R;
 import com.worldline.template.internal.di.HasComponent;
@@ -48,7 +47,7 @@ public class MainActivity extends RootActivity implements HasComponent<MainActiv
         setSupportActionBar(toolbar);
         restoreActionBar(getString(R.string.app_name), false);
         initializeInjector();
-        if (savedInstanceState == null){
+        if (savedInstanceState == null) {
             addFragment(R.id.container_fragment, new MainFragment());
         }
         presenter.setView(this);

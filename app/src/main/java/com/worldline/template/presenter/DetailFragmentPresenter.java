@@ -13,9 +13,10 @@ import javax.inject.Inject;
 
 
 @PerFragment
-public class DetailFragmentPresenter extends Presenter<DetailFragment>{
+public class DetailFragmentPresenter extends Presenter<DetailFragment> {
 
     private final GetDetailItemUseCase getDetailItemUseCase;
+
     private final HomeItemModelMapper homeItemModelMapper;
 
     @Inject
@@ -50,7 +51,7 @@ public class DetailFragmentPresenter extends Presenter<DetailFragment>{
     }
 
     private void getItemDetail() {
-        getDetailItemUseCase.execute(view.getItemId(),new DefaultSubscriber<HomeItem>(){
+        getDetailItemUseCase.execute(view.getItemId(), new DefaultSubscriber<HomeItem>() {
             @Override
             public void onCompleted() {
                 super.onCompleted();
@@ -66,17 +67,16 @@ public class DetailFragmentPresenter extends Presenter<DetailFragment>{
             public void onNext(HomeItem homeItem) {
                 super.onNext(homeItem);
                 HomeItemModel item = homeItemModelMapper.dataToModel(homeItem);
-                if (item == null){
+                if (item == null) {
                     view.showEmptyCase();
-                } else{
+                } else {
                     view.showItem(item);
                 }
             }
         });
-
     }
 
-    public interface View extends IView{
+    public interface View extends IView {
         void showItem(HomeItemModel item);
 
         String getItemId();

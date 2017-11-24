@@ -1,12 +1,10 @@
 package com.worldline.template.view.fragment;
 
-import com.worldline.template.R;
 import com.worldline.template.internal.di.HasComponent;
 import com.worldline.template.internal.di.module.FragmentModule;
 import com.worldline.template.presenter.Presenter;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -69,7 +67,6 @@ public abstract class RootFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-
         Presenter presenter = getPresenter();
         if (presenter != null) {
             presenter.resume();
