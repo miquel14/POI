@@ -76,9 +76,6 @@ public class MainFragment extends RootFragment implements HasComponent<MainFragm
 
     @Override
     public void onResume() {
-        /*if (adapter != null) {
-            presenter.refreshLocationsList();
-        }*/
         super.onResume();
     }
 
@@ -147,9 +144,11 @@ public class MainFragment extends RootFragment implements HasComponent<MainFragm
 
     @Override
     public void onRecyclerViewItemClick(RecyclerView recyclerView, View view, int adapterPosition) {
+        //searchView.onActionViewCollapsed();
         presenter.gotoDetail(((HomeItemModel) adapter.getItemAtPosition(adapterPosition)).getId(),
                 ((HomeItemModel) adapter.getItemAtPosition(adapterPosition)).getTitle());
     }
+
 
     @Override
     public boolean isReady() {
@@ -184,5 +183,11 @@ public class MainFragment extends RootFragment implements HasComponent<MainFragm
     @Override
     public void onRefresh() {
         presenter.getHomeItems();
+    }
+
+    public void closeSearchView() {
+        if (searchView != null){
+            searchView.onActionViewCollapsed();
+        }
     }
 }

@@ -59,12 +59,12 @@ public class MainFragmentPresenter extends Presenter<MainFragment> implements Go
         locationHelper.checkPermission();
         locationManager = (LocationManager) getView().getContext().getSystemService(Context.LOCATION_SERVICE);
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2000, 10, locationListenerGPS);
-        getHomeItems();
     }
 
     @Override
     public void resume() {
-
+        view.closeSearchView();
+        refreshLocationsList();
     }
 
     @Override
@@ -247,6 +247,8 @@ public class MainFragmentPresenter extends Presenter<MainFragment> implements Go
     public interface View extends IView {
 
         void showItems(List<HomeItemModel> homeItems);
+
+        void closeSearchView();
     }
 }
 
