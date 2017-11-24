@@ -39,6 +39,9 @@ public class DetailFragment extends RootFragment implements HasComponent<DetailF
     @BindView(R.id.phone)
     TextView phone;
 
+    @BindView(R.id.descTitle)
+    TextView descTitle;
+
     private DetailFragmentComponent component;
 
     @Inject
@@ -110,6 +113,7 @@ public class DetailFragment extends RootFragment implements HasComponent<DetailF
         title.setText(item.getTitle());
         show(transport, item.getTransport());
         show(phone, item.getPhone());
+        descTitle.setText(getString(R.string.descTitle));
         show(description, item.getDescription());
         show(email, item.getEmail());
         show(address, item.getAddress());
