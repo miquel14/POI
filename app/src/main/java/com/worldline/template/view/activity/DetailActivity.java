@@ -38,8 +38,10 @@ public class DetailActivity extends RootActivity implements HasComponent<DetailA
         int id = getIntent().getIntExtra(getString(R.string.tag_id), 0);
         String title = getIntent().getStringExtra(getString(R.string.tag_title));
         restoreActionBar(title, true);
-        Fragment fragment = DetailFragment.newInstance(id);
-        addFragment(R.id.container_detail_fragment, fragment);
+        if (savedInstanceState == null) {
+            Fragment fragment = DetailFragment.newInstance(id);
+            addFragment(R.id.container_detail_fragment, fragment);
+        }
         presenter.setView(this);
         presenter.start();
     }
