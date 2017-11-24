@@ -9,4 +9,16 @@
         android:iconifiedByDefault="false"
         app:actionViewClass="android.support.v7.widget.SearchView"
         android:title="@string/action_search"/>
+    <item
+        android:id="@+id/sortAscendant"
+        app:showAsAction="never"
+        android:title="@string/sortAscendant" />
+    <item
+        android:id="@+id/sortDescendent"
+        app:showAsAction="never"
+        android:title="@string/sortDescendant" />
+    <item
+        android:id="@+id/sortByDistance"
+        app:showAsAction="never"
+        android:title="@string/sortByDistance" />
 </menu>

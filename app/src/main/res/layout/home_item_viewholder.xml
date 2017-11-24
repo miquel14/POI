@@ -16,17 +16,33 @@
         android:id="@+id/pointOfInterestTitle"
         android:layout_width="210sp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="25dp" />
+        android:layout_marginLeft="25dp"
+        android:layout_marginStart="25dp"
+        />
 
     <TextView
         tools:text="10km"
         android:textSize="15sp"
         android:layout_centerVertical="true"
         android:id="@+id/distance"
+        android:layout_marginStart="25dp"
         android:layout_marginLeft="25dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toEndOf="@id/pointOfInterestTitle"
         android:layout_toRightOf="@id/pointOfInterestTitle" />
+
+    <RatingBar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="25dp"
+        android:layout_marginStart="25dp"
+        android:layout_toEndOf="@id/distance"
+        android:layout_toRightOf="@id/distance"
+        android:stepSize="1"
+        android:scaleX=".75"
+        android:scaleY=".75"
+        android:scrollbarSize="15sp"
+        />
 
 </RelativeLayout>
