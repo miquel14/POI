@@ -37,7 +37,7 @@ public class DetailActivity extends RootActivity implements HasComponent<DetailA
         initializeInjector();
         int id = getIntent().getIntExtra(getString(R.string.tag_id), 0);
         String title = getIntent().getStringExtra(getString(R.string.tag_title));
-        restoreActionBar(title);
+        restoreActionBar(title, true);
         Fragment fragment = DetailFragment.newInstance(id);
         addFragment(R.id.container_detail_fragment, fragment);
         presenter.setView(this);
@@ -45,9 +45,9 @@ public class DetailActivity extends RootActivity implements HasComponent<DetailA
     }
 
     @Override
-    protected void restoreActionBar(String title) {
+    protected void restoreActionBar(String title, boolean showUp) {
         setSupportActionBar(toolbar);
-        super.restoreActionBar(title);
+        super.restoreActionBar(title, true);
     }
 
     public static Intent getDetailCallingIntent(Context context, int id, String title) {

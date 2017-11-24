@@ -152,10 +152,10 @@ public abstract class RootActivity extends AppCompatActivity {
         return ((AndroidApplication) getApplication()).getApplicationComponent();
     }
 
-    protected void restoreActionBar(String title) {
+    protected void restoreActionBar(String title, boolean showUpArrow) {
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
-            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setDisplayHomeAsUpEnabled(showUpArrow);
         }
         setTitle(title);
     }
