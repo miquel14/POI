@@ -8,4 +8,7 @@
     <string name="tag_title">PARAM_TITLE</string>
     <string name="tag_id">PARAM_ID</string>
     <string name="descTitle">Una mica d\'informació:</string>
+    <string name="sortAscendant"> A-Z </string>
+    <string name="sortDescendant"> Z-A </string>
+    <string name="sortByDistance"> Kms </string>
 </resources>

@@ -113,6 +113,23 @@ public class MainFragment extends RootFragment implements HasComponent<MainFragm
     }
 
     @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.sortAscendant:
+                presenter.sort(getString(R.string.sortAscendant));
+                return true;
+            case R.id.sortDescendent:
+                presenter.sort(getString(R.string.sortDescendant));
+                return true;
+            case R.id.sortByDistance:
+                presenter.sort(getString(R.string.sortByDistance));
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return super.onCreateView(inflater, container, savedInstanceState);
     }
@@ -162,16 +179,26 @@ public class MainFragment extends RootFragment implements HasComponent<MainFragm
 
     @Override
     public void showEmptyCase() {
-        emptyCaseLayout.setVisibility(View.VISIBLE);
+        if (emptyCaseLayout != null && emptyCaseLayout.getVisibility() == View.VISIBLE) {
+            emptyCaseLayout.setVisibility(View.VISIBLE);
+        }
         swipeRefreshLayout.setRefreshing(false);
     }
 
     @Override
-    public void showItems(List<HomeItemModel> homeItems) {
-        emptyCaseLayout.setVisibility(View.GONE);
+    public void showItems(List<HomeItemModel> homeItems, String sortBy) {
+        if (emptyCaseLayout != null) {
+            emptyCaseLayout.setVisibility(View.GONE);
+        }
         adapter.clear();
         try {
-            Collections.sort(homeItems, presenter.comp);
+            if (sortBy == null || sortBy.equals(getString(R.string.sortByDistance))) {
+                Collections.sort(homeItems, presenter.compDistance);
+            } else if (sortBy.equals(getString(R.string.sortAscendant))) {
+                Collections.sort(homeItems, presenter.compNameAsc);
+            } else {
+                Collections.sort(homeItems, presenter.compNameDesc);
+            }
         } catch (Exception exception) {
             exception.printStackTrace();
         }
@@ -186,7 +213,7 @@ public class MainFragment extends RootFragment implements HasComponent<MainFragm
     }
 
     public void closeSearchView() {
-        if (searchView != null){
+        if (searchView != null) {
             searchView.onActionViewCollapsed();
         }
     }

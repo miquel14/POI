@@ -109,7 +109,7 @@ public class MainFragmentPresenter extends Presenter<MainFragment> implements Go
         } else {
             getLastLocation();
             calculateAllDistances(homeItemModelList);
-            view.showItems(homeItemModelList);
+            view.showItems(homeItemModelList, null);
         }
     }
 
@@ -181,7 +181,7 @@ public class MainFragmentPresenter extends Presenter<MainFragment> implements Go
         return String.format(Locale.ENGLISH, "%.2f", distanceKm);
     }
 
-    final public Comparator<HomeItemModel> comp = new Comparator<HomeItemModel>() {
+    final public Comparator<HomeItemModel> compDistance = new Comparator<HomeItemModel>() {
         @Override
         public int compare(HomeItemModel o1, HomeItemModel o2) {
             if (Double.valueOf(o1.getDistanceInKm()) > Double.valueOf(o2.getDistanceInKm())) {
@@ -193,6 +193,24 @@ public class MainFragmentPresenter extends Presenter<MainFragment> implements Go
             }
         }
     };
+
+    final public Comparator<HomeItemModel> compNameAsc = new Comparator<HomeItemModel>() {
+        @Override
+        public int compare(HomeItemModel o1, HomeItemModel o2) {
+            return o1.getTitle().compareToIgnoreCase(o2.getTitle());
+        }
+    };
+
+    final public Comparator<HomeItemModel> compNameDesc = new Comparator<HomeItemModel>() {
+        @Override
+        public int compare(HomeItemModel o1, HomeItemModel o2) {
+            return o2.getTitle().compareToIgnoreCase(o1.getTitle());
+        }
+    };
+
+    public void sort(String sortBy) {
+        view.showItems(homeItemModelList, sortBy);
+    }
 
 
     private void getLastLocation() {
@@ -216,7 +234,7 @@ public class MainFragmentPresenter extends Presenter<MainFragment> implements Go
                 filteredList.add(model);
             }
         }
-        view.showItems(filteredList);
+        view.showItems(filteredList, null);
     }
 
     private void showToast(String message) {
@@ -247,7 +265,7 @@ public class MainFragmentPresenter extends Presenter<MainFragment> implements Go
 
     public interface View extends IView {
 
-        void showItems(List<HomeItemModel> homeItems);
+        void showItems(List<HomeItemModel> homeItems, String sortBy);
 
         void closeSearchView();
     }
