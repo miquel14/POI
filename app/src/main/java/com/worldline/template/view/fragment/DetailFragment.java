@@ -118,6 +118,7 @@ public class DetailFragment extends RootFragment implements HasComponent<DetailF
         show(email, item.getEmail());
         show(address, item.getAddress());
     }
+
     //TODO fer mètode on comprovar els strings no permesos
     public void show(TextView tv, String value) {
         if (!TextUtils.isEmpty(value) && !value.equals("null")) {

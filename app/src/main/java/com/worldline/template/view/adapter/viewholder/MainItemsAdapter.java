@@ -1,11 +1,11 @@
 package com.worldline.template.view.adapter.viewholder;
 
-
 import com.worldline.template.R;
 import com.worldline.template.model.HomeItemModel;
 import com.worldline.template.view.adapter.BaseRecyclerViewAdapter;
 
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
@@ -13,10 +13,16 @@ import java.util.ArrayList;
 public class MainItemsAdapter extends BaseRecyclerViewAdapter<MainItemsViewHolder>
         implements BaseClickViewHolder.OnViewHolderClickedListener {
 
-
     public MainItemsAdapter() {
         data = new ArrayList<>();
     }
+
+    public interface onFavoriteClicked {
+
+        void addItemFavoriteClicked(HomeItemModel item, int position);
+    }
+
+    private onFavoriteClicked onFavoriteClicked;
 
     @Override
     public MainItemsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -27,15 +33,25 @@ public class MainItemsAdapter extends BaseRecyclerViewAdapter<MainItemsViewHolde
     }
 
     @Override
-    public void onBindViewHolder(MainItemsViewHolder holder, int position) {
+    public void onBindViewHolder(final MainItemsViewHolder holder, final int position) {
         if (data.get(position) instanceof HomeItemModel) {
             final HomeItemModel item = (HomeItemModel) data.get(position);
             holder.pointOfInterest.setText(item.getTitle());
             holder.distance.setText(holder.distance.getContext().getString(R.string.distance_in_km, item.getDistanceInKm()));
+            holder.favorite.setActivated(item.getFavorite());
+            holder.favorite.setVisibility(View.VISIBLE);
+            holder.favorite.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (onFavoriteClicked != null) {
+                        onFavoriteClicked.addItemFavoriteClicked(item, holder.getAdapterPosition());
+                    }
+                }
+            });
         }
     }
 
-    public void searchPOI(String query) {
-
+    public void setOnFavoriteClicked(onFavoriteClicked onFavoriteClicked) {
+        this.onFavoriteClicked = onFavoriteClicked;
     }
 }

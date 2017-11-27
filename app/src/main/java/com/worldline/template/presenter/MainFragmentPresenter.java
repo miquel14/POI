@@ -153,6 +153,14 @@ public class MainFragmentPresenter extends Presenter<MainFragment> implements Go
         });
     }
 
+    public void toggleItemFavorite(HomeItemModel item) {
+        if (item.getFavorite()) {
+            item.setFavorite(false);
+        } else {
+            item.setFavorite(true);
+        }
+    }
+
     private void calculateAllDistances(List<HomeItemModel> homeItemModelList) {
         for (HomeItemModel item : homeItemModelList) {
             item.setDistanceInKm(distance(item.getGeoCoordinates()));

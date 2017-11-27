@@ -20,6 +20,8 @@ public class HomeItemModel {
 
     private String distanceInKm;
 
+    private Boolean favorite = false;
+
     public int getId() {
         return id;
     }
@@ -90,5 +92,13 @@ public class HomeItemModel {
 
     public void setDistanceInKm(String distanceInKm) {
         this.distanceInKm = distanceInKm;
+    }
+
+    public void setFavorite(boolean favorite) {
+        this.favorite = favorite;
+    }
+
+    public Boolean getFavorite() {
+        return favorite;
     }
 }

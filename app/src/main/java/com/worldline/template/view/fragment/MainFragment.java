@@ -36,7 +36,7 @@ import butterknife.BindView;
 
 public class MainFragment extends RootFragment implements HasComponent<MainFragmentComponent>,
         BaseRecyclerViewAdapter.OnItemClickedListener,
-        MainFragmentPresenter.View, SwipeRefreshLayout.OnRefreshListener {
+        MainFragmentPresenter.View, SwipeRefreshLayout.OnRefreshListener, MainItemsAdapter.onFavoriteClicked {
 
     @BindView(R.id.mainRecyclerView)
     RecyclerView recyclerView;
@@ -136,6 +136,7 @@ public class MainFragment extends RootFragment implements HasComponent<MainFragm
 
     private void setListener() {
         swipeRefreshLayout.setOnRefreshListener(this);
+        adapter.setOnFavoriteClicked(this);
         adapter.setListener(this);
     }
 
@@ -161,11 +162,9 @@ public class MainFragment extends RootFragment implements HasComponent<MainFragm
 
     @Override
     public void onRecyclerViewItemClick(RecyclerView recyclerView, View view, int adapterPosition) {
-        //searchView.onActionViewCollapsed();
         presenter.gotoDetail(((HomeItemModel) adapter.getItemAtPosition(adapterPosition)).getId(),
                 ((HomeItemModel) adapter.getItemAtPosition(adapterPosition)).getTitle());
     }
-
 
     @Override
     public boolean isReady() {
@@ -216,5 +215,11 @@ public class MainFragment extends RootFragment implements HasComponent<MainFragm
         if (searchView != null) {
             searchView.onActionViewCollapsed();
         }
+    }
+
+    @Override
+    public void addItemFavoriteClicked(HomeItemModel item, int position) {
+        presenter.toggleItemFavorite(item);
+        adapter.notifyItemChanged(position, item);
     }
 }
