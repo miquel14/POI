@@ -1,36 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/itemParent"
     android:layout_width="match_parent"
-    android:background="?attr/selectableItemBackground"
     android:layout_height="64dp"
-    android:clickable="true"
-    android:id="@+id/itemParent">
-
-
-
-    <TextView
-        tools:text="Fundació Antoni Tàpies"
-        android:textSize="18sp"
-        android:layout_centerVertical="true"
-        android:id="@+id/pointOfInterestTitle"
-        android:layout_width="210sp"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="25dp"
-        android:layout_marginStart="25dp"
-        />
-
-    <TextView
-        tools:text="10km"
-        android:textSize="15sp"
-        android:layout_centerVertical="true"
-        android:id="@+id/distance"
-        android:layout_marginStart="25dp"
-        android:layout_marginLeft="25dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toEndOf="@id/pointOfInterestTitle"
-        android:layout_toRightOf="@id/pointOfInterestTitle" />
+    android:background="?attr/selectableItemBackground"
+    android:clickable="true">
 
     <ImageView
         android:id="@+id/ivFavorite"
@@ -38,11 +13,35 @@
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_toEndOf="@id/distance"
-        android:layout_toRightOf="@id/distance"
-        android:layout_marginStart="25dp"
-        android:layout_marginLeft="25dp"
         android:layout_centerVertical="true"
+        android:layout_marginEnd="15dp"
+        android:layout_marginRight="15dp"
         android:src="@drawable/ic_favorite_transparent" />
+
+    <TextView
+        android:id="@+id/distance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_toLeftOf="@id/ivFavorite"
+        android:layout_toStartOf="@id/ivFavorite"
+        android:textSize="12sp"
+        tools:text="10km" />
+
+    <TextView
+        android:id="@+id/pointOfInterestTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        tools:text="Fundació Antoni Tàpies"
+        android:layout_toLeftOf="@id/distance"
+        android:layout_toStartOf="@id/distance"
+        android:paddingLeft="10dp"
+        android:paddingStart="10dp"
+        android:layout_centerVertical="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
 </RelativeLayout>
