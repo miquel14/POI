@@ -104,14 +104,14 @@ dependencies {
     compile applicationDependencies.design
     compile applicationDependencies.butterKnife
     compile applicationDependencies.butterKnifeProcessor
+    compile applicationDependencies.location
+    compile applicationDependencies.maps
 
     // Other dependencies
     compile applicationDependencies.dexter
     compile('com.crashlytics.sdk.android:crashlytics:2.6.8@aar') {
         transitive = true;
     }
-    compile 'com.google.android.gms:play-services-location:11.0.4'
-
     // Testing dependencies
     testCompile applicationTestingDependencies.jUnit
     testCompile applicationTestingDependencies.mockito

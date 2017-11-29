@@ -55,10 +55,11 @@ public class MainFragmentPresenter extends Presenter<MainFragment> implements Go
     }
 
     @Override
-    protected void initialize() {
-        locationHelper.checkPermission();
-        locationManager = (LocationManager) getView().getContext().getSystemService(Context.LOCATION_SERVICE);
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2000, 10, locationListenerGPS);
+    public void initialize() {
+        if (locationHelper.checkPermission()) {
+            locationManager = (LocationManager) getView().getContext().getSystemService(Context.LOCATION_SERVICE);
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2000, 10, locationListenerGPS);
+        }
     }
 
     @Override
@@ -78,7 +79,9 @@ public class MainFragmentPresenter extends Presenter<MainFragment> implements Go
         if (locationHelper.getGoogleApiCLient() != null) {
             locationHelper.connectApiClient();
         }
-        initialize();
+        if (locationHelper.checkPermission()) {
+            initialize();
+        }
     }
 
     private LocationListener locationListenerGPS = new LocationListener() {
@@ -163,30 +166,30 @@ public class MainFragmentPresenter extends Presenter<MainFragment> implements Go
 
     private void calculateAllDistances(List<HomeItemModel> homeItemModelList) {
         for (HomeItemModel item : homeItemModelList) {
-            item.setDistanceInKm(distance(item.getGeoCoordinates()));
+            item.setDistanceInKm(distance(item));
         }
     }
 
-    private String distance(String coordinates) {
+    private String distance(HomeItemModel item) {
+        String coordinates = item.getGeoCoordinates();
         String[] coordinatesList = coordinates.split(",");
         String latitude = coordinatesList[0];
         String longitude = coordinatesList[1];
 
+        item.setLongitude(Double.parseDouble(longitude));
+        item.setLatitude(Double.parseDouble(latitude));
+
         Location loc1 = new Location("");
-        loc1.setLongitude(Double.parseDouble(longitude));
-        loc1.setLatitude(Double.parseDouble(latitude));
+        loc1.setLongitude(item.getLongitude());
+        loc1.setLatitude(item.getLatitude());
 
-        Location loc2 = new Location("");
-        if (lastKnownLocation.getLatitude() == 0 || lastKnownLocation.getLongitude() == 0) {
-            loc2.setLatitude(GeoConstant.latitude);
-            loc2.setLongitude(GeoConstant.longitude);
+        if (lastKnownLocation.getLongitude() == 0 && lastKnownLocation.getLatitude() == 0) {
+            return null;
         } else {
-            loc2.set(lastKnownLocation);
+            float distanceMeters = lastKnownLocation.distanceTo(loc1);
+            float distanceKm = distanceMeters / 1000;
+            return String.format(Locale.ENGLISH, "%.2f", distanceKm);
         }
-
-        float distanceMeters = loc2.distanceTo(loc1);
-        float distanceKm = distanceMeters / 1000;
-        return String.format(Locale.ENGLISH, "%.2f", distanceKm);
     }
 
     final public Comparator<HomeItemModel> compDistance = new Comparator<HomeItemModel>() {

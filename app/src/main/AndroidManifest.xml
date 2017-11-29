@@ -32,6 +32,9 @@
             android:theme="@style/AppTheme.NoActionBar"
             android:configChanges="orientation"
             android:launchMode="singleTop"/>
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyBiaKd150JtO1blbXXgf3i2cPC3y0xZNhk"/>
     </application>
 
 </manifest>

@@ -1,5 +1,14 @@
 package com.worldline.template.view.fragment;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.MapsInitializer;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+
 import com.worldline.template.AndroidApplication;
 import com.worldline.template.R;
 import com.worldline.template.internal.di.HasComponent;
@@ -12,14 +21,17 @@ import com.worldline.template.presenter.Presenter;
 
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
 
-public class DetailFragment extends RootFragment implements HasComponent<DetailFragmentComponent>, DetailFragmentPresenter.View {
+public class DetailFragment extends RootFragment implements HasComponent<DetailFragmentComponent>, DetailFragmentPresenter.View,
+        OnMapReadyCallback {
 
     @BindView(R.id.address)
     TextView address;
@@ -42,6 +54,11 @@ public class DetailFragment extends RootFragment implements HasComponent<DetailF
     @BindView(R.id.descTitle)
     TextView descTitle;
 
+    @BindView(R.id.map)
+    MapView mapView;
+
+    GoogleMap googleMap;
+
     private DetailFragmentComponent component;
 
     @Inject
@@ -59,6 +76,19 @@ public class DetailFragment extends RootFragment implements HasComponent<DetailF
         args.putInt("PARAM_ID", id);
         fragment.setArguments(args);
         return fragment;
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View v = super.onCreateView(inflater, container, savedInstanceState);
+        mapView.onCreate(savedInstanceState);
+        mapView.getMapAsync(this);
+        try {
+            MapsInitializer.initialize(this.getActivity());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return v;
     }
 
     @Override
@@ -117,6 +147,16 @@ public class DetailFragment extends RootFragment implements HasComponent<DetailF
         show(description, item.getDescription());
         show(email, item.getEmail());
         show(address, item.getAddress());
+        if (presenter.getLatitude(item) != null && presenter.getLongitude(item) != null) {
+            LatLng latLng = new LatLng(presenter.getLatitude(item), presenter.getLongitude(item));
+            googleMap.moveCamera(CameraUpdateFactory
+                    .newLatLngZoom(latLng, 15f));
+            googleMap.addMarker(new MarkerOptions()
+                    .position(latLng)
+                    .title(item.getTitle())
+                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
+            //googleMap.addMarker()
+        }
     }
 
     //TODO fer mètode on comprovar els strings no permesos
@@ -131,5 +171,24 @@ public class DetailFragment extends RootFragment implements HasComponent<DetailF
 
     public String getItemId() {
         return String.valueOf(id);
+    }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        this.googleMap = googleMap;
+        googleMap.getUiSettings().setMyLocationButtonEnabled(false);
+        //googleMap.setMyLocationEnabled(true);
+    }
+
+    @Override
+    public void onResume() {
+        mapView.onResume();
+        super.onResume();
+    }
+
+    @Override
+    public void onPause() {
+        mapView.onResume();
+        super.onPause();
     }
 }

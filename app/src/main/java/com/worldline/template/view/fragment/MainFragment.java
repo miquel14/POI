@@ -208,6 +208,7 @@ public class MainFragment extends RootFragment implements HasComponent<MainFragm
 
     @Override
     public void onRefresh() {
+        presenter.initialize();
         presenter.getHomeItems();
     }
 

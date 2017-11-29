@@ -22,6 +22,26 @@ public class HomeItemModel {
 
     private Boolean favorite = false;
 
+    private Double longitude;
+
+    private Double latitude;
+
+    public void setLongitude(Double longitude) {
+        this.longitude = longitude;
+    }
+
+    public Double getLongitude() {
+        return longitude;
+    }
+
+    public void setLatitude(Double latitude) {
+        this.latitude = latitude;
+    }
+
+    public Double getLatitude() {
+        return latitude;
+    }
+
     public int getId() {
         return id;
     }
