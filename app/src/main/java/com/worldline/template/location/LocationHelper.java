@@ -64,8 +64,8 @@ public class LocationHelper implements PermissionUtils.PermissionResultCallback 
      * Method to check the availability of location permissions
      */
 
-    public void checkPermission() {
-        permissionUtils.check_permission(permissions, "Need GPS permission for getting your location", 1);
+    public boolean checkPermission() {
+        return permissionUtils.checkPermission(permissions, "Need GPS permission for getting your location", 1);
     }
 
     private boolean isPermissionGranted() {
@@ -206,23 +206,23 @@ public class LocationHelper implements PermissionUtils.PermissionResultCallback 
 
 
     @Override
-    public void PermissionGranted(int request_code) {
+    public void permissionGranted(int requestCode) {
         Log.i("PERMISSION", "GRANTED");
         isPermissionGranted = true;
     }
 
     @Override
-    public void PartialPermissionGranted(int request_code, ArrayList<String> granted_permissions) {
+    public void partialPermissionGranted(int requestCode, ArrayList<String> grantedPermissions) {
         Log.i("PERMISSION PARTIALLY", "GRANTED");
     }
 
     @Override
-    public void PermissionDenied(int request_code) {
+    public void permissionDenied(int requestCode) {
         Log.i("PERMISSION", "DENIED");
     }
 
     @Override
-    public void NeverAskAgain(int request_code) {
+    public void neverAskAgain(int requestCode) {
         Log.i("PERMISSION", "NEVER ASK AGAIN");
     }
 

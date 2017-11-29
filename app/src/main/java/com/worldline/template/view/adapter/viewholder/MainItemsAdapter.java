@@ -37,7 +37,13 @@ public class MainItemsAdapter extends BaseRecyclerViewAdapter<MainItemsViewHolde
         if (data.get(position) instanceof HomeItemModel) {
             final HomeItemModel item = (HomeItemModel) data.get(position);
             holder.pointOfInterest.setText(item.getTitle());
-            holder.distance.setText(holder.distance.getContext().getString(R.string.distance_in_km, item.getDistanceInKm()));
+            if (item.getDistanceInKm() != null){
+                holder.distance.setVisibility(View.VISIBLE);
+                holder.distance.setText(holder.distance.getContext().getString(R.string.distance_in_km, item.getDistanceInKm()));
+            }
+            else {
+                holder.distance.setVisibility(View.INVISIBLE);
+            }
             holder.favorite.setActivated(item.getFavorite());
             holder.favorite.setVisibility(View.VISIBLE);
             holder.favorite.setOnClickListener(new View.OnClickListener() {
