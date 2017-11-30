@@ -147,6 +147,7 @@ public class MainFragmentPresenter extends Presenter<MainFragment> implements Go
             public void onNext(List<HomeItem> homeItems) {
                 super.onNext(homeItems);
                 homeItemModelList = homeItemModelMapper.dataListToModelList(homeItems);
+                getFavoriteFromPreferences(homeItemModelList);
                 if (homeItemModelList == null || homeItemModelList.isEmpty()) {
                     view.showEmptyCase();
                 } else {
@@ -156,12 +157,24 @@ public class MainFragmentPresenter extends Presenter<MainFragment> implements Go
         });
     }
 
+    private void getFavoriteFromPreferences(List<HomeItemModel> homeItems) {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getView().getContext());
+        for (HomeItemModel item : homeItems) {
+            item.setFavorite(sharedPreferences.getBoolean(Integer.toString(item.getId()), false));
+        }
+    }
+
     public void toggleItemFavorite(HomeItemModel item) {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getView().getContext());
+        SharedPreferences.Editor editor = sharedPreferences.edit();
         if (item.getFavorite()) {
             item.setFavorite(false);
+            editor.remove(Integer.toString(item.getId()));
         } else {
             item.setFavorite(true);
+            editor.putBoolean(Integer.toString(item.getId()), true);
         }
+        editor.apply();
     }
 
     private void calculateAllDistances(List<HomeItemModel> homeItemModelList) {
@@ -219,7 +232,16 @@ public class MainFragmentPresenter extends Presenter<MainFragment> implements Go
         }
     };
 
+    final public Comparator<HomeItemModel> compFav = new Comparator<HomeItemModel>() {
+
+        @Override
+        public int compare(HomeItemModel o1, HomeItemModel o2) {
+            return (o1.getFavorite() != o2.getFavorite()) ? (o1.getFavorite()) ? -1 : 1 : 0;
+        }
+    };
+
     public void sort(String sortBy) {
+        this.sortBy = sortBy;
         view.showItems(homeItemModelList, sortBy);
     }
 
