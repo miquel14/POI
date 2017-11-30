@@ -3,7 +3,6 @@ package com.worldline.template.presenter;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 
-import com.worldline.data.GeoConstant;
 import com.worldline.domain.interactor.GetHomeItemsUseCase;
 import com.worldline.domain.model.HomeItem;
 import com.worldline.domain.subscriber.DefaultSubscriber;
@@ -15,10 +14,12 @@ import com.worldline.template.view.IView;
 import com.worldline.template.view.fragment.MainFragment;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
@@ -47,6 +48,8 @@ public class MainFragmentPresenter extends Presenter<MainFragment> implements Go
     private LocationHelper locationHelper;
 
     private LocationManager locationManager;
+
+    private String sortBy = "";
 
     @Inject
     MainFragmentPresenter(GetHomeItemsUseCase getHomeItemsUseCase, HomeItemModelMapper homeItemsModelMapper) {
@@ -112,7 +115,7 @@ public class MainFragmentPresenter extends Presenter<MainFragment> implements Go
         } else {
             getLastLocation();
             calculateAllDistances(homeItemModelList);
-            view.showItems(homeItemModelList, null);
+            sort(sortBy);
         }
     }
 

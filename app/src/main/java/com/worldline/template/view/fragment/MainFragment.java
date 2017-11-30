@@ -124,6 +124,9 @@ public class MainFragment extends RootFragment implements HasComponent<MainFragm
             case R.id.sortByDistance:
                 presenter.sort(getString(R.string.sortByDistance));
                 return true;
+            case R.id.sortByFav:
+                presenter.sort(getString(R.string.sortByFav));
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -191,19 +194,26 @@ public class MainFragment extends RootFragment implements HasComponent<MainFragm
         }
         adapter.clear();
         try {
-            if (sortBy == null || sortBy.equals(getString(R.string.sortByDistance))) {
+            if (sortBy == null || sortBy.equals("") || sortBy.equals(getString(R.string.sortByDistance))) {
                 Collections.sort(homeItems, presenter.compDistance);
             } else if (sortBy.equals(getString(R.string.sortAscendant))) {
                 Collections.sort(homeItems, presenter.compNameAsc);
-            } else {
+            } else if (sortBy.equals(getString(R.string.sortDescendant))) {
                 Collections.sort(homeItems, presenter.compNameDesc);
+            } else {
+                Collections.sort(homeItems, presenter.compFav);
             }
         } catch (Exception exception) {
             exception.printStackTrace();
         }
         adapter.notifyDataSetChanged();
         adapter.addAll(homeItems);
+        scrollToTop();
         swipeRefreshLayout.setRefreshing(false);
+    }
+
+    private void scrollToTop() {
+        recyclerView.smoothScrollToPosition(0);
     }
 
     @Override

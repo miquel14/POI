@@ -21,4 +21,8 @@
         android:id="@+id/sortByDistance"
         app:showAsAction="never"
         android:title="@string/sortByDistance" />
+    <item
+        android:id="@+id/sortByFav"
+        app:showAsAction="never"
+        android:title="@string/sortByFav" />
 </menu>

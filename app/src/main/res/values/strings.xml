@@ -11,4 +11,5 @@
     <string name="sortAscendant"> A-Z </string>
     <string name="sortDescendant"> Z-A </string>
     <string name="sortByDistance"> Kms </string>
+    <string name="sortByFav">Favorites</string>
 </resources>
