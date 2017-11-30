@@ -155,7 +155,6 @@ public class DetailFragment extends RootFragment implements HasComponent<DetailF
                     .position(latLng)
                     .title(item.getTitle())
                     .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
-            //googleMap.addMarker()
         }
     }
 
@@ -177,7 +176,6 @@ public class DetailFragment extends RootFragment implements HasComponent<DetailF
     public void onMapReady(GoogleMap googleMap) {
         this.googleMap = googleMap;
         googleMap.getUiSettings().setMyLocationButtonEnabled(false);
-        //googleMap.setMyLocationEnabled(true);
     }
 
     @Override

@@ -52,6 +52,7 @@ public class MainItemsAdapter extends BaseRecyclerViewAdapter<MainItemsViewHolde
                     if (onFavoriteClicked != null) {
                         onFavoriteClicked.addItemFavoriteClicked(item, holder.getAdapterPosition());
                     }
+
                 }
             });
         }

@@ -12,11 +12,6 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
-        <!-- TODO: Uncomment the following lines and change the api key value -->
-        <!-- <meta-data -->
-        <!-- android:name="io.fabric.ApiKey" -->
-        <!-- android:value="TODO_PUT_YOUR_API_KEY"/> -->
         <activity
             android:name=".view.activity.MainActivity"
             android:launchMode="singleTop"
