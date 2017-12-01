@@ -194,15 +194,7 @@ public class MainFragment extends RootFragment implements HasComponent<MainFragm
         }
         adapter.clear();
         try {
-            if (sortBy == null || sortBy.equals("") || sortBy.equals(getString(R.string.sortByDistance))) {
-                Collections.sort(homeItems, presenter.compDistance);
-            } else if (sortBy.equals(getString(R.string.sortAscendant))) {
-                Collections.sort(homeItems, presenter.compNameAsc);
-            } else if (sortBy.equals(getString(R.string.sortDescendant))) {
-                Collections.sort(homeItems, presenter.compNameDesc);
-            } else {
-                Collections.sort(homeItems, presenter.compFav);
-            }
+           homeItems = presenter.sortByType();
         } catch (Exception exception) {
             exception.printStackTrace();
         }

@@ -248,6 +248,19 @@ public class MainFragmentPresenter extends Presenter<MainFragment> implements Go
         view.showItems(homeItemModelList, sortBy);
     }
 
+    public List<HomeItemModel> sortByType() {
+        if (sortBy == null || sortBy.equals("") || sortBy.equals(getView().getString(R.string.sortByDistance))) {
+            Collections.sort(homeItemModelList, compDistance);
+        } else if (sortBy.equals(getView().getString(R.string.sortAscendant))) {
+            Collections.sort(homeItemModelList, compNameAsc);
+        } else if (sortBy.equals(getView().getString(R.string.sortDescendant))) {
+            Collections.sort(homeItemModelList, compNameDesc);
+        } else {
+            Collections.sort(homeItemModelList, compFav);
+        }
+        return homeItemModelList;
+    }
+
 
     private void getLastLocation() {
         Location mLocation = locationHelper.getLocation();
@@ -260,7 +273,11 @@ public class MainFragmentPresenter extends Presenter<MainFragment> implements Go
     }
 
     public void searchItems(String newText) {
-        filter(homeItemModelList, newText);
+        if (homeItemModelList != null) {
+            filter(homeItemModelList, newText);
+        } else {
+            refreshLocationsList();
+        }
     }
 
     private void filter(List<HomeItemModel> list, String query) {
@@ -270,7 +287,7 @@ public class MainFragmentPresenter extends Presenter<MainFragment> implements Go
                 filteredList.add(model);
             }
         }
-        view.showItems(filteredList, null);
+        view.showItems(filteredList, sortBy);
     }
 
     private void showToast(String message) {
