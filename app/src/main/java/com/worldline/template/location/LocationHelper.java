@@ -25,7 +25,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 
-public class LocationHelper implements PermissionUtils.PermissionResultCallback {
+public class LocationHelper implements com.worldline.template.location.permissionUtils.PermissionResultCallback {
 
     private Context context;
 
@@ -33,17 +33,17 @@ public class LocationHelper implements PermissionUtils.PermissionResultCallback 
 
     private boolean isPermissionGranted;
 
-    private Location mLastLocation;
+    private Location lastLocation;
 
     // Google client to interact with Google API
 
-    private GoogleApiClient mGoogleApiClient;
+    private GoogleApiClient googleApiClient;
 
     // list of permissions
 
     private ArrayList<String> permissions = new ArrayList<>();
 
-    private PermissionUtils permissionUtils;
+    private com.worldline.template.location.permissionUtils permissionUtils;
 
     private final static int PLAY_SERVICES_REQUEST = 1000;
 
@@ -54,7 +54,7 @@ public class LocationHelper implements PermissionUtils.PermissionResultCallback 
         this.context = context;
         this.currentActivity = (Activity) context;
 
-        permissionUtils = new PermissionUtils(context, this);
+        permissionUtils = new permissionUtils(context, this);
 
         permissions.add(Manifest.permission.ACCESS_FINE_LOCATION);
         permissions.add(Manifest.permission.ACCESS_COARSE_LOCATION);
@@ -101,8 +101,8 @@ public class LocationHelper implements PermissionUtils.PermissionResultCallback 
     public Location getLocation() {
         if (isPermissionGranted()) {
             try {
-                mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-                return mLastLocation;
+                lastLocation = LocationServices.FusedLocationApi.getLastLocation(googleApiClient);
+                return lastLocation;
             } catch (SecurityException e) {
                 e.printStackTrace();
             }
@@ -115,12 +115,12 @@ public class LocationHelper implements PermissionUtils.PermissionResultCallback 
      */
 
     public void buildGoogleApiClient() {
-        mGoogleApiClient = new GoogleApiClient.Builder(context)
+        googleApiClient = new GoogleApiClient.Builder(context)
                 .addConnectionCallbacks((GoogleApiClient.ConnectionCallbacks) currentActivity)
                 .addOnConnectionFailedListener((GoogleApiClient.OnConnectionFailedListener) currentActivity)
                 .addApi(LocationServices.API).build();
 
-        mGoogleApiClient.connect();
+        googleApiClient.connect();
 
         LocationRequest mLocationRequest = new LocationRequest();
         mLocationRequest.setInterval(10000);
@@ -131,7 +131,7 @@ public class LocationHelper implements PermissionUtils.PermissionResultCallback 
                 .addLocationRequest(mLocationRequest);
 
         PendingResult<LocationSettingsResult> result =
-                LocationServices.SettingsApi.checkLocationSettings(mGoogleApiClient, builder.build());
+                LocationServices.SettingsApi.checkLocationSettings(googleApiClient, builder.build());
 
         result.setResultCallback(new ResultCallback<LocationSettingsResult>() {
             @Override
@@ -142,7 +142,7 @@ public class LocationHelper implements PermissionUtils.PermissionResultCallback 
                 switch (status.getStatusCode()) {
                     case LocationSettingsStatusCodes.SUCCESS:
                         // All location settings are satisfied. The client can initialize location requests here
-                        mLastLocation = getLocation();
+                        lastLocation = getLocation();
                         break;
                     case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
                         try {
@@ -165,14 +165,14 @@ public class LocationHelper implements PermissionUtils.PermissionResultCallback 
      * Method used to connect GoogleApiClient
      */
     public void connectApiClient() {
-        mGoogleApiClient.connect();
+        googleApiClient.connect();
     }
 
     /**
      * Method used to get the GoogleApiClient
      */
     public GoogleApiClient getGoogleApiCLient() {
-        return mGoogleApiClient;
+        return googleApiClient;
     }
 
 
@@ -192,7 +192,7 @@ public class LocationHelper implements PermissionUtils.PermissionResultCallback 
                 switch (resultCode) {
                     case Activity.RESULT_OK:
                         // All required changes were successfully made
-                        mLastLocation = getLocation();
+                        lastLocation = getLocation();
                         break;
                     case Activity.RESULT_CANCELED:
                         // The user was asked to change settings, but chose not to

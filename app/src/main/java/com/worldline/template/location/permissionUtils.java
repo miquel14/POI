@@ -16,7 +16,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-public class PermissionUtils {
+public class permissionUtils {
 
     private Context context;
 
@@ -32,14 +32,14 @@ public class PermissionUtils {
 
     private int reqCode;
 
-    private PermissionUtils(Context context) {
+    private permissionUtils(Context context) {
         this.context = context;
         this.currentActivity = (Activity) context;
 
         permissionResultCallback = (PermissionResultCallback) context;
     }
 
-    public PermissionUtils(Context context, PermissionResultCallback callback) {
+    public permissionUtils(Context context, PermissionResultCallback callback) {
         this.context = context;
         this.currentActivity = (Activity) context;
         permissionResultCallback = callback;
