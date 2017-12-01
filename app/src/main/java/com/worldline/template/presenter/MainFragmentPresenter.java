@@ -6,6 +6,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.worldline.domain.interactor.GetHomeItemsUseCase;
 import com.worldline.domain.model.HomeItem;
 import com.worldline.domain.subscriber.DefaultSubscriber;
+import com.worldline.template.R;
 import com.worldline.template.internal.di.PerFragment;
 import com.worldline.template.location.LocationHelper;
 import com.worldline.template.model.HomeItemModel;
@@ -27,6 +28,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
@@ -95,17 +97,14 @@ public class MainFragmentPresenter extends Presenter<MainFragment> implements Go
 
         @Override
         public void onStatusChanged(String provider, int status, Bundle extras) {
-
         }
 
         @Override
         public void onProviderEnabled(String provider) {
-
         }
 
         @Override
         public void onProviderDisabled(String provider) {
-
         }
     };
 
@@ -121,12 +120,10 @@ public class MainFragmentPresenter extends Presenter<MainFragment> implements Go
 
     @Override
     public void pause() {
-
     }
 
     @Override
     public void destroy() {
-
     }
 
     public void gotoDetail(int id, String title) {
@@ -187,14 +184,7 @@ public class MainFragmentPresenter extends Presenter<MainFragment> implements Go
     }
 
     private String distance(HomeItemModel item) {
-        String coordinates = item.getGeoCoordinates();
-        String[] coordinatesList = coordinates.split(",");
-        String latitude = coordinatesList[0];
-        String longitude = coordinatesList[1];
-
-        item.setLongitude(Double.parseDouble(longitude));
-        item.setLatitude(Double.parseDouble(latitude));
-
+        setCoordinates(item);
         Location loc1 = new Location("");
         loc1.setLongitude(item.getLongitude());
         loc1.setLatitude(item.getLatitude());
@@ -205,6 +195,19 @@ public class MainFragmentPresenter extends Presenter<MainFragment> implements Go
             float distanceMeters = lastKnownLocation.distanceTo(loc1);
             float distanceKm = distanceMeters / 1000;
             return String.format(Locale.ENGLISH, "%.2f", distanceKm);
+        }
+    }
+
+    private void setCoordinates(HomeItemModel item) {
+        String coordinates = item.getGeoCoordinates();
+        String[] coordinatesList = coordinates.split(",");
+        String latitude = coordinatesList[0];
+        String longitude = coordinatesList[1];
+        if (item.getLatitude() == null) {
+            item.setLatitude(Double.parseDouble(latitude));
+        }
+        if (item.getLongitude() == null) {
+            item.setLongitude(Double.parseDouble(longitude));
         }
     }
 

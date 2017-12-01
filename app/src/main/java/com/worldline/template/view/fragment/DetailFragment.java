@@ -158,7 +158,6 @@ public class DetailFragment extends RootFragment implements HasComponent<DetailF
         }
     }
 
-    //TODO fer mètode on comprovar els strings no permesos
     public void show(TextView tv, String value) {
         if (!TextUtils.isEmpty(value) && !value.equals("null")) {
             tv.setText(value);

@@ -89,6 +89,7 @@ public class DetailFragmentPresenter extends Presenter<DetailFragment> {
     }
 
     public interface View extends IView {
+
         void showItem(HomeItemModel item);
 
         String getItemId();
