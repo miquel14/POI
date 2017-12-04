@@ -114,7 +114,7 @@ public class MainFragmentPresenter extends Presenter<MainFragment> implements Go
         } else {
             getLastLocation();
             calculateAllDistances(homeItemModelList);
-            sort(sortBy);
+            sort(sortBy, homeItemModelList, false);
         }
     }
 
@@ -232,16 +232,21 @@ public class MainFragmentPresenter extends Presenter<MainFragment> implements Go
         }
     };
 
-    public void sort(String sortBy) {
+    public void sort(String sortBy, List<HomeItemModel>  homeItemModelList, boolean filtered) {
         this.sortBy = sortBy;
-        view.showItems(sortByType(sortBy));
+        if (filtered && homeItemModelList != null) {
+            view.showItems(sortByType(sortBy, homeItemModelList));
+        }
+        else{
+            view.showItems(sortByType(sortBy, this.homeItemModelList));
+        }
         if (!sortBy.equals("")) {
             view.scrollToTop();
             this.sortBy = "";
         }
     }
 
-    public List<HomeItemModel> sortByType(String sortBy) {
+    public List<HomeItemModel> sortByType(String sortBy, List<HomeItemModel>  homeItemModelList) {
         if (sortBy == null || sortBy.equals("") || sortBy.equals(getView().getString(R.string.sortByDistance))) {
             Collections.sort(homeItemModelList, compDistance);
         } else if (sortBy.equals(getView().getString(R.string.sortAscendant))) {
@@ -280,8 +285,8 @@ public class MainFragmentPresenter extends Presenter<MainFragment> implements Go
                 filteredList.add(model);
             }
         }
-        homeItemModelList = filteredList;
-        sort(sortBy);
+        //homeItemModelList = filteredList;
+        sort(sortBy, filteredList, true);
     }
 
     private void showToast(String message) {

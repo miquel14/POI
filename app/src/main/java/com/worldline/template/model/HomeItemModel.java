@@ -122,7 +122,7 @@ public class HomeItemModel {
         return favorite;
     }
 
-    public void setCoordinates(){
+    public void setCoordinates() {
         String coordinates = getGeoCoordinates();
         String[] coordinatesList = coordinates.split(",");
         String latitude = coordinatesList[0];
