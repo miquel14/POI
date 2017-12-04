@@ -25,7 +25,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 
-public class LocationHelper implements com.worldline.template.location.permissionUtils.PermissionResultCallback {
+public class LocationHelper implements PermissionUtils.PermissionResultCallback {
 
     private Context context;
 
@@ -43,7 +43,7 @@ public class LocationHelper implements com.worldline.template.location.permissio
 
     private ArrayList<String> permissions = new ArrayList<>();
 
-    private com.worldline.template.location.permissionUtils permissionUtils;
+    private PermissionUtils permissionUtils;
 
     private final static int PLAY_SERVICES_REQUEST = 1000;
 
@@ -54,7 +54,7 @@ public class LocationHelper implements com.worldline.template.location.permissio
         this.context = context;
         this.currentActivity = (Activity) context;
 
-        permissionUtils = new permissionUtils(context, this);
+        permissionUtils = new PermissionUtils(context, this);
 
         permissions.add(Manifest.permission.ACCESS_FINE_LOCATION);
         permissions.add(Manifest.permission.ACCESS_COARSE_LOCATION);
