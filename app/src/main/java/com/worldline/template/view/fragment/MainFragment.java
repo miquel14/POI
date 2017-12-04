@@ -27,7 +27,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
-import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -181,30 +180,23 @@ public class MainFragment extends RootFragment implements HasComponent<MainFragm
 
     @Override
     public void showEmptyCase() {
-        if (emptyCaseLayout != null && emptyCaseLayout.getVisibility() == View.VISIBLE) {
+        if (emptyCaseLayout != null && emptyCaseLayout.getVisibility() == View.GONE) {
             emptyCaseLayout.setVisibility(View.VISIBLE);
         }
         swipeRefreshLayout.setRefreshing(false);
     }
 
     @Override
-    public void showItems(List<HomeItemModel> homeItems, String sortBy) {
+    public void showItems(List<HomeItemModel> homeItems) {
         if (emptyCaseLayout != null) {
             emptyCaseLayout.setVisibility(View.GONE);
         }
         adapter.clear();
-        try {
-           homeItems = presenter.sortByType();
-        } catch (Exception exception) {
-            exception.printStackTrace();
-        }
-        adapter.notifyDataSetChanged();
         adapter.addAll(homeItems);
-        scrollToTop();
         swipeRefreshLayout.setRefreshing(false);
     }
 
-    private void scrollToTop() {
+    public void scrollToTop() {
         recyclerView.smoothScrollToPosition(0);
     }
 
