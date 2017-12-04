@@ -188,12 +188,14 @@ public class MainFragment extends RootFragment implements HasComponent<MainFragm
 
     @Override
     public void showItems(List<HomeItemModel> homeItems) {
-        if (emptyCaseLayout != null) {
-            emptyCaseLayout.setVisibility(View.GONE);
+        if (getContext() != null) {
+            if (emptyCaseLayout != null) {
+                emptyCaseLayout.setVisibility(View.GONE);
+            }
+            adapter.clear();
+            adapter.addAll(homeItems);
+            swipeRefreshLayout.setRefreshing(false);
         }
-        adapter.clear();
-        adapter.addAll(homeItems);
-        swipeRefreshLayout.setRefreshing(false);
     }
 
     public void scrollToTop() {
