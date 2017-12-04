@@ -24,6 +24,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import javax.inject.Inject;
@@ -56,6 +57,9 @@ public class DetailFragment extends RootFragment implements HasComponent<DetailF
 
     @BindView(R.id.map)
     MapView mapView;
+
+    @BindView(R.id.detailEmptyCaseLayout)
+    RelativeLayout emptyCaseLayout;
 
     GoogleMap googleMap;
 
@@ -137,18 +141,27 @@ public class DetailFragment extends RootFragment implements HasComponent<DetailF
 
     @Override
     public void showEmptyCase() {
+        if (emptyCaseLayout != null && emptyCaseLayout.getVisibility() == View.GONE) {
+            emptyCaseLayout.setVisibility(View.VISIBLE);
+            mapView.setVisibility(View.GONE);
+        }
     }
 
     public void showItem(HomeItemModel item) {
+        if (emptyCaseLayout != null) {
+            emptyCaseLayout.setVisibility(View.GONE);
+        }
         title.setText(item.getTitle());
         show(transport, item.getTransport());
         show(phone, item.getPhone());
-        descTitle.setText(getString(R.string.descTitle));
         show(description, item.getDescription());
+        if (description.getVisibility() == View.VISIBLE) {
+            descTitle.setText(getString(R.string.descTitle));
+        }
         show(email, item.getEmail());
         show(address, item.getAddress());
-        if (presenter.getLatitude(item) != null && presenter.getLongitude(item) != null) {
-            LatLng latLng = new LatLng(presenter.getLatitude(item), presenter.getLongitude(item));
+        if (item.getLatitude() != null && item.getLongitude() != null) {
+            LatLng latLng = new LatLng(item.getLatitude(), item.getLongitude());
             googleMap.moveCamera(CameraUpdateFactory
                     .newLatLngZoom(latLng, 15f));
             googleMap.addMarker(new MarkerOptions()
