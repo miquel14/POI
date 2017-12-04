@@ -21,10 +21,10 @@ public class HomeItemModelMapper implements Mapper<HomeItemModel, HomeItem> {
         return null;
     }
 
-    @Override //per l'itemdetail
+    @Override
     public HomeItemModel dataToModel(HomeItem data) {
         HomeItemModel homeItemModel = new HomeItemModel();
-        if (data != null){
+        if (data != null) {
             homeItemModel.setId(data.getId());
             homeItemModel.setTitle(data.getTitle());
             homeItemModel.setAddress(data.getAddress());
@@ -42,11 +42,7 @@ public class HomeItemModelMapper implements Mapper<HomeItemModel, HomeItem> {
         List<HomeItemModel> model = new ArrayList<>();
         if (data != null) {
             for (HomeItem homeitems : data) {
-                HomeItemModel homeItemModel = new HomeItemModel();
-                homeItemModel.setId(homeitems.getId());
-                homeItemModel.setTitle(homeitems.getTitle());
-                homeItemModel.setGeoCoordinates(homeitems.getGeocoord());
-                model.add(homeItemModel);
+                model.add(dataToModel(homeitems));
             }
         }
         return model;
