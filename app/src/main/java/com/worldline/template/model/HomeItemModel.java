@@ -121,4 +121,17 @@ public class HomeItemModel {
     public Boolean getFavorite() {
         return favorite;
     }
+
+    public void setCoordinates(){
+        String coordinates = getGeoCoordinates();
+        String[] coordinatesList = coordinates.split(",");
+        String latitude = coordinatesList[0];
+        String longitude = coordinatesList[1];
+        if (getLatitude() == null) {
+            setLatitude(Double.parseDouble(latitude));
+        }
+        if (getLongitude() == null) {
+            setLongitude(Double.parseDouble(longitude));
+        }
+    }
 }

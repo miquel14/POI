@@ -70,22 +70,11 @@ public class DetailFragmentPresenter extends Presenter<DetailFragment> {
                 if (item == null) {
                     view.showEmptyCase();
                 } else {
+                    item.setCoordinates();
                     view.showItem(item);
                 }
             }
         });
-    }
-
-    public Double getLatitude(HomeItemModel item) {
-        String coordinates = item.getGeoCoordinates();
-        String[] coordinatesList = coordinates.split(",");
-        return Double.parseDouble(coordinatesList[0]);
-    }
-
-    public Double getLongitude(HomeItemModel item) {
-        String coordinates = item.getGeoCoordinates();
-        String[] coordinatesList = coordinates.split(",");
-        return Double.parseDouble(coordinatesList[1]);
     }
 
     public interface View extends IView {

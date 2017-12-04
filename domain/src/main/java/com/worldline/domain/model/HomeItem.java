@@ -20,4 +20,8 @@ public class HomeItem {
     private String phone;
 
     private String geocoord;
+
+    private Double longitude;
+
+    private Double latitude;
 }

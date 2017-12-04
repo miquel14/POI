@@ -184,30 +184,16 @@ public class MainFragmentPresenter extends Presenter<MainFragment> implements Go
     }
 
     private String distance(HomeItemModel item) {
-        setCoordinates(item);
+        item.setCoordinates();
         Location loc1 = new Location("");
         loc1.setLongitude(item.getLongitude());
         loc1.setLatitude(item.getLatitude());
-
         if (lastKnownLocation.getLongitude() == 0 && lastKnownLocation.getLatitude() == 0) {
             return null;
         } else {
             float distanceMeters = lastKnownLocation.distanceTo(loc1);
             float distanceKm = distanceMeters / 1000;
             return String.format(Locale.ENGLISH, "%.2f", distanceKm);
-        }
-    }
-
-    private void setCoordinates(HomeItemModel item) {
-        String coordinates = item.getGeoCoordinates();
-        String[] coordinatesList = coordinates.split(",");
-        String latitude = coordinatesList[0];
-        String longitude = coordinatesList[1];
-        if (item.getLatitude() == null) {
-            item.setLatitude(Double.parseDouble(latitude));
-        }
-        if (item.getLongitude() == null) {
-            item.setLongitude(Double.parseDouble(longitude));
         }
     }
 
@@ -248,10 +234,14 @@ public class MainFragmentPresenter extends Presenter<MainFragment> implements Go
 
     public void sort(String sortBy) {
         this.sortBy = sortBy;
-        view.showItems(homeItemModelList, sortBy);
+        view.showItems(sortByType(sortBy));
+        if (!sortBy.equals("")) {
+            view.scrollToTop();
+            this.sortBy = "";
+        }
     }
 
-    public List<HomeItemModel> sortByType() {
+    public List<HomeItemModel> sortByType(String sortBy) {
         if (sortBy == null || sortBy.equals("") || sortBy.equals(getView().getString(R.string.sortByDistance))) {
             Collections.sort(homeItemModelList, compDistance);
         } else if (sortBy.equals(getView().getString(R.string.sortAscendant))) {
@@ -276,7 +266,7 @@ public class MainFragmentPresenter extends Presenter<MainFragment> implements Go
     }
 
     public void searchItems(String newText) {
-        if (homeItemModelList != null) {
+        if (homeItemModelList != null && !homeItemModelList.isEmpty()) {
             filter(homeItemModelList, newText);
         } else {
             refreshLocationsList();
@@ -290,7 +280,8 @@ public class MainFragmentPresenter extends Presenter<MainFragment> implements Go
                 filteredList.add(model);
             }
         }
-        view.showItems(filteredList, sortBy);
+        homeItemModelList = filteredList;
+        sort(sortBy);
     }
 
     private void showToast(String message) {
@@ -321,9 +312,11 @@ public class MainFragmentPresenter extends Presenter<MainFragment> implements Go
 
     public interface View extends IView {
 
-        void showItems(List<HomeItemModel> homeItems, String sortBy);
+        void showItems(List<HomeItemModel> homeItems);
 
         void closeSearchView();
+
+        void scrollToTop();
     }
 }
 
