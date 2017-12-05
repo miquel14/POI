@@ -225,9 +225,13 @@ public class MainFragmentPresenter extends Presenter<MainFragment> implements Go
         }
     };
 
+    public void onSortClicked(String sortBy) {
+        sort(sortBy, homeItemModelList, false);
+    }
+
     public void sort(String sortBy, List<HomeItemModel> homeItemModelList, boolean filtered) {
         this.sortBy = sortBy;
-        if (filtered && homeItemModelList != null) {
+        if (filtered) {
             view.showItems(sortByType(sortBy, homeItemModelList));
         } else {
             view.showItems(sortByType(sortBy, this.homeItemModelList));

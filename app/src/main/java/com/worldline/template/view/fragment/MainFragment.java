@@ -115,16 +115,16 @@ public class MainFragment extends RootFragment implements HasComponent<MainFragm
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.sortAscendant:
-                presenter.sort(getString(R.string.sortAscendant), null, false);
+                presenter.onSortClicked(getString(R.string.sortAscendant));
                 return true;
             case R.id.sortDescendent:
-                presenter.sort(getString(R.string.sortDescendant), null, false);
+                presenter.onSortClicked(getString(R.string.sortDescendant));
                 return true;
             case R.id.sortByDistance:
-                presenter.sort(getString(R.string.sortByDistance), null, false);
+                presenter.onSortClicked(getString(R.string.sortByDistance));
                 return true;
             case R.id.sortByFav:
-                presenter.sort(getString(R.string.sortByFav), null, false);
+                presenter.onSortClicked(getString(R.string.sortByFav));
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
