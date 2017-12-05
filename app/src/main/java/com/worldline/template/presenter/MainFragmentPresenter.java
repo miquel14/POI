@@ -61,20 +61,6 @@ public class MainFragmentPresenter extends Presenter<MainFragment> implements Go
 
     @Override
     public void initialize() {
-        if (locationHelper.checkPermission()) {
-            locationManager = (LocationManager) getView().getContext().getSystemService(Context.LOCATION_SERVICE);
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2000, 10, locationListenerGPS);
-        }
-    }
-
-    @Override
-    public void resume() {
-        view.closeSearchView();
-        refreshLocationsList();
-    }
-
-    @Override
-    public void start() {
         locationHelper = new LocationHelper(getView().getContext());
         lastKnownLocation = new Location("");
         if (locationHelper.checkPlayServices()) {
@@ -85,8 +71,15 @@ public class MainFragmentPresenter extends Presenter<MainFragment> implements Go
             locationHelper.connectApiClient();
         }
         if (locationHelper.checkPermission()) {
-            initialize();
+            locationManager = (LocationManager) getView().getContext().getSystemService(Context.LOCATION_SERVICE);
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2000, 10, locationListenerGPS);
         }
+    }
+
+    @Override
+    public void resume() {
+        view.closeSearchView();
+        refreshLocationsList();
     }
 
     private LocationListener locationListenerGPS = new LocationListener() {
