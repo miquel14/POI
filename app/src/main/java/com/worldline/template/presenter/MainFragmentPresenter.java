@@ -232,12 +232,11 @@ public class MainFragmentPresenter extends Presenter<MainFragment> implements Go
         }
     };
 
-    public void sort(String sortBy, List<HomeItemModel>  homeItemModelList, boolean filtered) {
+    public void sort(String sortBy, List<HomeItemModel> homeItemModelList, boolean filtered) {
         this.sortBy = sortBy;
         if (filtered && homeItemModelList != null) {
             view.showItems(sortByType(sortBy, homeItemModelList));
-        }
-        else{
+        } else {
             view.showItems(sortByType(sortBy, this.homeItemModelList));
         }
         if (!sortBy.equals("")) {
@@ -246,7 +245,7 @@ public class MainFragmentPresenter extends Presenter<MainFragment> implements Go
         }
     }
 
-    public List<HomeItemModel> sortByType(String sortBy, List<HomeItemModel>  homeItemModelList) {
+    private List<HomeItemModel> sortByType(String sortBy, List<HomeItemModel> homeItemModelList) {
         if (sortBy == null || sortBy.equals("") || sortBy.equals(getView().getString(R.string.sortByDistance))) {
             Collections.sort(homeItemModelList, compDistance);
         } else if (sortBy.equals(getView().getString(R.string.sortAscendant))) {
@@ -285,7 +284,6 @@ public class MainFragmentPresenter extends Presenter<MainFragment> implements Go
                 filteredList.add(model);
             }
         }
-        //homeItemModelList = filteredList;
         sort(sortBy, filteredList, true);
     }
 
