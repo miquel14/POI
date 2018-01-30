@@ -29,7 +29,7 @@ public class CloudDataStore extends CommonCloudDataStore {
         apiService = retrofit.create(ApiService.class);
     }
 
-    public Observable<List<HomeItem>> getHomeItems(){
+    public Observable<List<HomeItem>> getHomeItems() {
         return apiService.getHomeItemsList().map(baseResponseDtoMapper::dataListToModelList);
     }
 

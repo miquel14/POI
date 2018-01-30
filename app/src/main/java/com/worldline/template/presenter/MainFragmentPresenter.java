@@ -182,7 +182,7 @@ public class MainFragmentPresenter extends Presenter<MainFragment> implements Go
         loc1.setLongitude(item.getLongitude());
         loc1.setLatitude(item.getLatitude());
         if (lastKnownLocation.getLongitude() == 0 && lastKnownLocation.getLatitude() == 0) {
-            return null;
+            return "0";
         } else {
             float distanceMeters = lastKnownLocation.distanceTo(loc1);
             float distanceKm = distanceMeters / 1000;
@@ -243,12 +243,18 @@ public class MainFragmentPresenter extends Presenter<MainFragment> implements Go
     }
 
     private List<HomeItemModel> sortByType(String sortBy, List<HomeItemModel> homeItemModelList) {
-        if (sortBy == null || sortBy.equals("") || sortBy.equals(getView().getString(R.string.sortByDistance))) {
-            Collections.sort(homeItemModelList, compDistance);
+        if (sortBy == null || sortBy.equals("")) {
+            if (lastKnownLocation == null) {
+                Collections.sort(homeItemModelList, compNameAsc);
+            } else {
+                Collections.sort(homeItemModelList, compDistance);
+            }
         } else if (sortBy.equals(getView().getString(R.string.sortAscendant))) {
             Collections.sort(homeItemModelList, compNameAsc);
         } else if (sortBy.equals(getView().getString(R.string.sortDescendant))) {
             Collections.sort(homeItemModelList, compNameDesc);
+        } else if (sortBy.equals(getView().getString(R.string.sortByDistance))) {
+            Collections.sort(homeItemModelList, compDistance);
         } else {
             Collections.sort(homeItemModelList, compFav);
         }
