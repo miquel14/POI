@@ -21,28 +21,6 @@ buildscript {
     }
 }
 
-apply plugin: "org.sonarqube"
-
-sonarqube {
-    properties {
-        property "sonar.host.url", "https://kazan.priv.atos.fr/sonar/"
-        property "sonar.jdbc.url", "jdbc:postgresql://pgpkaz93.kazan.priv.atos.fr:5432/kazan_sonar"
-        property "sonar.jdbc.username", "kazan_sonar"
-        property "sonar.jdbc.password", "S0n@r"
-        property "sonar.login", "kazanadmin"
-        property "sonar.password", "4dm|n"
-        property "sonar.projectName", "T21 Base Project"                        // TODO: Change to Project Name
-        property "sonar.projectKey", "com.worldline:t21-base-project"           // TODO: Change to Project ID
-        property "sonar.sourceEncoding", "UTF-8"
-        property "sonar.sources", "app/src/main/java,domain/src/main/java,data/src/main/java"   // TODO: set paths of project.
-        property "sonar.exclusions",
-                "build/**,**/*.png,**/test/*, app/build/**, app/src/test/**, app/src/androidTest/**,  data/build/**, " +
-                        "data/src/test/**, data/src/androidTest/**, domain/src/test, domain/build/**" // TODO: set paths.
-        property "sonar.import_unknown_files", true
-        property "sonar.android.lint.report", "./build/reports/lint/lint-report.xml"
-    }
-}
-
 def getSignFile(String file) {
     Properties properties = readFile(file)
     return properties.getProperty("KEYSTORE_FILE")
@@ -76,9 +54,9 @@ def readFile(String file) {
 
 allprojects {
     ext {
-        androidApplicationId = 'com.worldline.template.clean'
-        androidVersionCode = 0
-        androidVersionName = "0"
+        androidApplicationId = 'com.miquel.poi'
+        androidVersionCode = 20180131
+        androidVersionName = "1.0.0"
     }
     repositories {
         jcenter()
