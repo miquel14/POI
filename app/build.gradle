@@ -103,13 +103,15 @@ dependencies {
     compile applicationDependencies.support_v4
     compile applicationDependencies.design
     compile applicationDependencies.butterKnife
+    compile applicationDependencies.butterKnifeProcessor
+    compile applicationDependencies.location
+    compile applicationDependencies.maps
 
     // Other dependencies
     compile applicationDependencies.dexter
     compile('com.crashlytics.sdk.android:crashlytics:2.6.8@aar') {
         transitive = true;
     }
-
     // Testing dependencies
     testCompile applicationTestingDependencies.jUnit
     testCompile applicationTestingDependencies.mockito

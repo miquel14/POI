@@ -90,7 +90,7 @@ public class CommonCloudDataStore {
 
     private Retrofit.Builder provideCommonRetrofitBuilder() {
         return new Retrofit.Builder()
-            .baseUrl(APIConstants.HOST)
+            .baseUrl(APIConstants.BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .addCallAdapterFactory(RxJavaCallAdapterFactory.create());
     }

@@ -3,8 +3,26 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.worldline.template.view.activity.MainActivity">
     <item
-        android:id="@+id/action_settings"
-        android:orderInCategory="100"
-        android:title="@string/action_settings"
-        app:showAsAction="never" />
+        android:id="@+id/action_search"
+        android:icon="@android:drawable/ic_menu_search"
+        app:showAsAction="always"
+        android:iconifiedByDefault="false"
+        app:actionViewClass="android.support.v7.widget.SearchView"
+        android:title="@string/action_search"/>
+    <item
+        android:id="@+id/sortAscendant"
+        app:showAsAction="never"
+        android:title="@string/sortAscendant" />
+    <item
+        android:id="@+id/sortDescendent"
+        app:showAsAction="never"
+        android:title="@string/sortDescendant" />
+    <item
+        android:id="@+id/sortByDistance"
+        app:showAsAction="never"
+        android:title="@string/sortByDistance" />
+    <item
+        android:id="@+id/sortByFav"
+        app:showAsAction="never"
+        android:title="@string/sortByFav" />
 </menu>

@@ -33,6 +33,8 @@ ext {
     retrofitVersion = '2.2.0'
     lombokVersion = '1.16.16'
     okthttpVersion = '3.7.0'
+    locationVersion = '11.0.4'
+    mapsVersion = '11.0.4'
 
     //Testing
     robolectricVersion = '3.0'
@@ -40,13 +42,16 @@ ext {
     mockitoVersion = '1.+'
 
     applicationDependencies = [
-            appCompat_v7: "com.android.support:appcompat-v7:${supportVersion}",
-            support_v4  : "com.android.support:support-v4:${supportVersion}",
-            design      : "com.android.support:design:${supportVersion}",
-            butterKnife : "com.jakewharton:butterknife:${butterKnifeVersion}",
-            dexter      : "com.karumi:dexter:${dexterVersion}",
-            dagger             : "com.google.dagger:dagger:${daggerVersion}",
-            daggerCompiler     : "com.google.dagger:dagger-compiler:${daggerVersion}",
+            appCompat_v7        : "com.android.support:appcompat-v7:${supportVersion}",
+            support_v4          : "com.android.support:support-v4:${supportVersion}",
+            design              : "com.android.support:design:${supportVersion}",
+            butterKnife         : "com.jakewharton:butterknife:${butterKnifeVersion}",
+            butterKnifeProcessor: "com.jakewharton:butterknife-compiler:${butterKnifeVersion}",
+            dexter              : "com.karumi:dexter:${dexterVersion}",
+            dagger              : "com.google.dagger:dagger:${daggerVersion}",
+            daggerCompiler      : "com.google.dagger:dagger-compiler:${daggerVersion}",
+            location            : "com.google.android.gms:play-services-location:${locationVersion}",
+            maps                : "com.google.android.gms:play-services-maps:${mapsVersion}"
     ]
 
     applicationTestingDependencies = [
